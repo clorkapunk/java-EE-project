@@ -68,10 +68,10 @@ public class AdminController {
         repository.deleteById(id);
     }
 
-    @PutMapping("{customerId}")
+    @PutMapping("{userId}")
     @PreAuthorize("hasAuthority('admin:update')")
     @Hidden
-    public void updateCustomer(@PathVariable("customerId") Integer id, @RequestBody RegisterRequest request){
+    public void updateCustomer(@PathVariable("userId") Integer id, @RequestBody RegisterRequest request){
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalIdentifierException("Not found: " + id));
         user.setFirstname(request.getFirstname() == null ? user.getFirstname() : request.getFirstname());

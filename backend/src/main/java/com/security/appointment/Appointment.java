@@ -1,5 +1,6 @@
 package com.security.appointment;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.security.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,10 +32,12 @@ public class Appointment {
     private String status;
     private String result;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     public User doctor;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     public User patient;

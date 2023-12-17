@@ -110,6 +110,28 @@ public class SecurityApplication {
 					.build();
 			appointmentService.save(appointment);
 
+			var appointment2 = AppointmentRequest.builder()
+					.date("1992-02-02")
+					.time("18:00")
+					.note("Heart")
+					.status("PROCESSING")
+					.result("")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(1))
+					.build();
+			appointmentService.save(appointment);
+
+			var appointment3 = AppointmentRequest.builder()
+					.date("1992-02-02")
+					.time("18:00")
+					.note("Heart")
+					.status("PROCESSING")
+					.result("")
+					.patient(userService.findOneById(2))
+					.doctor(userService.findOneById(1))
+					.build();
+			appointmentService.save(appointment);
+
 //			var book = BookRequest.builder()
 //					.id(1)
 //					.author("Nicolas Cr. Page")

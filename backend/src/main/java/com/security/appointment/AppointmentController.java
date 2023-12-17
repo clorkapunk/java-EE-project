@@ -1,12 +1,11 @@
 package com.security.appointment;
 
+import com.security.user.UserService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +15,34 @@ import java.util.List;
 public class AppointmentController {
 
     private final AppointmentService service;
+    private final UserService userService;
+
+
+    @GetMapping("patient/{userId}")
+    @PreAuthorize("hasAuthority('user:read')")
+    @Hidden
+        public List<Appointment> findAllAppointmentsByPatient(@PathVariable("userId") Integer id){
+        var user = userService.findOneById(id);
+        return service.findAllByPatient(user);
+    }
+
+
+    @GetMapping("doctor/{userId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    @Hidden
+    public List<Appointment> findAllAppointmentsByDoctor(@PathVariable("userId") Integer id){
+        var user = userService.findOneById(id);
+        return service.findAllByDoctor(user);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public ResponseEntity<List<Appointment>> findAllAppointments() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('doctor:create')")
     public ResponseEntity<?> save(
             @RequestBody AppointmentRequest request
     ) {
@@ -25,8 +50,6 @@ public class AppointmentController {
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Appointment>> findAllBooks() {
-        return ResponseEntity.ok(service.findAll());
-    }
+
+
 }

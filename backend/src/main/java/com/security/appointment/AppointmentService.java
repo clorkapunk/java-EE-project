@@ -1,9 +1,11 @@
 package com.security.appointment;
 
+import com.security.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,4 +30,9 @@ public class AppointmentService {
     public List<Appointment> findAll() {
         return repository.findAll();
     }
+
+    public List<Appointment> findAllByPatient(User user) {return repository.findAllByPatient(user).orElseThrow(); }
+
+    public List<Appointment> findAllByDoctor(User user) {return repository.findAllByDoctor(user).orElseThrow(); }
+
 }
