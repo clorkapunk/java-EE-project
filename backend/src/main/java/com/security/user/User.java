@@ -1,5 +1,6 @@
 package com.security.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.security.appointment.Appointment;
 import com.security.hospital.Hospital;
 import com.security.specialization.Specialization;
@@ -29,7 +30,6 @@ public class User implements UserDetails {
   private String lastname;
   private String password;
   private String iin;
-  private String login;
   private String number;
   private String email;
   private String address;
@@ -43,10 +43,12 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "hospital_id")
   public Hospital hospital;
 
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "specialization_id")
   public Specialization specialization;
@@ -76,7 +78,7 @@ public class User implements UserDetails {
 
   @Override
   public String getUsername() {
-    return login;
+    return email;
   }
 
   @Override

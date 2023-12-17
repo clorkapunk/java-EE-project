@@ -1,7 +1,9 @@
 package com.security.demo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
+import com.security.hospital.HospitalService;
 import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserRepository;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.security.user.Role.USER;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/admin")
@@ -19,36 +23,39 @@ import java.util.List;
 public class AdminController {
     private final UserRepository repository;
     private final AuthenticationService service;
+    private final HospitalService hospitalService;
 
-    public AdminController(UserRepository repository, AuthenticationService service) {
+    public AdminController(UserRepository repository, AuthenticationService service, HospitalService hospitalService) {
         this.repository = repository;
         this.service = service;
+        this.hospitalService = hospitalService;
     }
 
     @GetMapping
+
     @PreAuthorize("hasAuthority('admin:read')")
     public List<User> getUsers(){
         return repository.findAll();
     }
 
-    record NewUserRequest(
-            String firstname,
-            String lastname,
-            String email,
-            String password,
-            String role
-    ){}
-
     @PostMapping
     @PreAuthorize("hasAuthority('admin:create')")
     @Hidden
-    public void addUser(@RequestBody NewUserRequest request){
+    public void addUser(@RequestBody RegisterRequest request){
         var user = RegisterRequest.builder()
-                .firstname(request.firstname())
-                .lastname(request.lastname())
-                .email(request.email())
-                .password(request.password())
-                .role(request.role().equals("ADMIN") ? Role.ADMIN : Role.DOCTOR)
+                .hospital(request.getHospital())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .iin(request.getIin())
+                .number(request.getNumber())
+                .address(request.getAddress())
+                .gender(request.getGender())
+                .dob(request.getDob())
+                .office(request.getOffice())
+                .schedule(request.getSchedule())
+                .role(request.getRole())
                 .build();
         System.out.println(user);
         service.register(user);
@@ -64,13 +71,13 @@ public class AdminController {
     @PutMapping("{customerId}")
     @PreAuthorize("hasAuthority('admin:update')")
     @Hidden
-    public void updateCustomer(@PathVariable("customerId") Integer id, @RequestBody NewUserRequest request){
+    public void updateCustomer(@PathVariable("customerId") Integer id, @RequestBody RegisterRequest request){
         User user = repository.findById(id)
                 .orElseThrow(() -> new IllegalIdentifierException("Not found: " + id));
-        user.setFirstname(request.firstname == null ? user.getFirstname() : request.firstname);
-        user.setLastname(request.lastname == null ? user.getLastname() : request.lastname);
-        user.setEmail(request.email == null ? user.getEmail() : request.email);
-        if(request.role() != null) user.setRole(request.role().equals("ADMIN") ? Role.ADMIN : Role.DOCTOR);
+        user.setFirstname(request.getFirstname() == null ? user.getFirstname() : request.getFirstname());
+        user.setLastname(request.getLastname() == null ? user.getLastname() : request.getLastname());
+        user.setEmail(request.getEmail() == null ? user.getEmail() : request.getEmail());
+        if(request.getRole() != null) user.setRole(request.getRole());
         repository.save(user);
     }
 }

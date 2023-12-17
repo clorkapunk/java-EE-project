@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +17,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/management")
+@RequestMapping("/api/v1/doctor")
 @CrossOrigin(origins = "*")
 @Tag(name = "Management")
-public class ManagementController {
+public class DoctorController {
     private final AppointmentService service;
     private final AppointmentRepository repository;
     private final UserRepository userRepository;
 
-    public ManagementController(AppointmentService service, AppointmentRepository repository, UserRepository userRepository) {
+    public DoctorController(AppointmentService service, AppointmentRepository repository, UserRepository userRepository) {
         this.service = service;
         this.repository = repository;
         this.userRepository = userRepository;

@@ -20,7 +20,6 @@ public class RegisterRequest {
   private String email;
   private String password;
   private String iin;
-  private String login;
   private String number;
   private String address;
   private String gender;
