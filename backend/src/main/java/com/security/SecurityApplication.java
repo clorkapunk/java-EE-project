@@ -101,9 +101,9 @@ public class SecurityApplication {
 
 			var appointment = AppointmentRequest.builder()
 					.date("1992-02-02")
-					.time("18:00")
+					.time("18:00-18:20")
 					.note("Heart")
-					.status("PROCESSING")
+					.status("COMPLETED")
 					.result("")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
@@ -112,25 +112,26 @@ public class SecurityApplication {
 
 			var appointment2 = AppointmentRequest.builder()
 					.date("1992-02-02")
-					.time("18:00")
+					.time("18:00-18:20")
 					.note("Heart")
-					.status("PROCESSING")
+					.status("APPROVED")
 					.result("")
 					.patient(userService.findOneById(3))
-					.doctor(userService.findOneById(1))
+					.doctor(userService.findOneById(2))
 					.build();
-			appointmentService.save(appointment);
+			appointmentService.save(appointment2);
 
 			var appointment3 = AppointmentRequest.builder()
 					.date("1992-02-02")
-					.time("18:00")
+					.time("18:00-18:20")
 					.note("Heart")
-					.status("PROCESSING")
+					.status("SENT")
 					.result("")
 					.patient(userService.findOneById(2))
-					.doctor(userService.findOneById(1))
+					.doctor(userService.findOneById(2))
 					.build();
-			appointmentService.save(appointment);
+
+			appointmentService.save(appointment3);
 
 //			var book = BookRequest.builder()
 //					.id(1)

@@ -68,10 +68,9 @@ public class AuthenticationService {
               .schedule("")
               .build();
     }
-
     var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    var jwtToken = jwtService.generateToken(user, user.getId());
+    var refreshToken = jwtService.generateRefreshToken(user, user.getId());
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
@@ -87,9 +86,11 @@ public class AuthenticationService {
         )
     );
     var user = repository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+        .orElseThrow(() ->
+          new UsernameNotFoundException("User not found")
+        );
+    var jwtToken = jwtService.generateToken(user, user.getId());
+    var refreshToken = jwtService.generateRefreshToken(user, user.getId());
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
@@ -137,7 +138,7 @@ public class AuthenticationService {
               .orElseThrow();
 
       if (jwtService.isTokenValid(refreshToken, user)) {
-        var accessToken = jwtService.generateToken(user);
+        var accessToken = jwtService.generateToken(user, user.getId());
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()

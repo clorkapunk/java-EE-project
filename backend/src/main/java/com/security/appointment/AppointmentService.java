@@ -33,6 +33,8 @@ public class AppointmentService {
 
     public List<Appointment> findAllByPatient(User user) {return repository.findAllByPatient(user).orElseThrow(); }
 
+    public Appointment findAppointmentByPatientAndId(User user, Integer id) { return  repository.findAppointmentByPatientAndId(user, id).orElseThrow(); }
+
     public List<Appointment> findAllByDoctor(User user) {return repository.findAllByDoctor(user).orElseThrow(); }
 
 }

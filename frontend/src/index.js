@@ -9,7 +9,7 @@ export const Context = createContext(null)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <div>
+    <div style={{background: "#F5F5F5"}}>
         <Context.Provider value={{
             user: new UserStore()
         }}>

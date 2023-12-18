@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
     Optional<List<Appointment>> findAllByPatient(User patient);
+    Optional<Appointment> findAppointmentByPatientAndId(User patient, Integer id);
 
     Optional<List<Appointment>> findAllByDoctor(User doctor);
 }

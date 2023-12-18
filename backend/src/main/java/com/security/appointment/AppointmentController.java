@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/appointments")
 @RequiredArgsConstructor
 public class AppointmentController {
@@ -17,6 +18,14 @@ public class AppointmentController {
     private final AppointmentService service;
     private final UserService userService;
 
+    @GetMapping("patient/{userId}/{appointmentId}")
+    @PreAuthorize("hasAuthority('user:read')")
+    @Hidden
+    public Appointment findAllAppointmentsByPatientAndId(@PathVariable("userId") Integer id,
+                                                               @PathVariable("appointmentId") Integer aId){
+        var user = userService.findOneById(id);
+        return service.findAppointmentByPatientAndId(user, aId);
+    }
 
     @GetMapping("patient/{userId}")
     @PreAuthorize("hasAuthority('user:read')")

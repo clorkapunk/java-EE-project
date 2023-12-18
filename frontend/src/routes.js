@@ -1,18 +1,32 @@
-import Auth from "./Auth";
+import Login from "./pages/Login";
 import MainTabs from "./MainTabs";
-import Register from "./Register";
+import Register from "./pages/Register";
+import Appointments from "./pages/Appointments";
+import AppointmentPage from "./pages/AppointmentPage";
+
+export const authRoutes = [
+    {
+        path: '/appointments',
+        Component: <Appointments/>
+    },
+    {
+        path: '/appointment/:id',
+        Component: <AppointmentPage/>
+    }
+]
 
 export const publicRoutes = [
     {
         path: '/login',
-        Component: <Auth/>
+        Component: <Login/>
     },
     {
         path: '/registration',
         Component: <Register/>
     },
     {
-        path: '/main',
+        path: '/',
         Component: <MainTabs/>
     }
+
 ]
