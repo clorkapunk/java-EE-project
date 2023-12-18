@@ -5,30 +5,31 @@ import com.security.auth.RegisterRequest;
 import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserRepository;
+import com.security.user.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/patient")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('USER')")
 public class PatientController {
     private final UserRepository repository;
     private final AuthenticationService service;
+    private final UserService userService;
 
-    public PatientController(UserRepository repository, AuthenticationService service) {
+    public PatientController(UserRepository repository, AuthenticationService service, UserService userService) {
         this.repository = repository;
         this.service = service;
+        this.userService = userService;
     }
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('admin:read')")
-    public List<User> getUsers(){
-        return repository.findAll();
+    @GetMapping("{userId}")
+    @PreAuthorize("hasAuthority('user:read')")
+    public User getUserById(@PathVariable("userId") Integer id){
+        return repository.findById(id).orElseThrow();
     }
 
     record NewUserRequest(

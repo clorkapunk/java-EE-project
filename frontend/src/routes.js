@@ -3,6 +3,7 @@ import MainTabs from "./MainTabs";
 import Register from "./pages/Register";
 import Appointments from "./pages/Appointments";
 import AppointmentPage from "./pages/AppointmentPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export const authRoutes = [
     {
@@ -12,6 +13,10 @@ export const authRoutes = [
     {
         path: '/appointment/:id',
         Component: <AppointmentPage/>
+    },
+    {
+        path: '/profile',
+        Component: <ProfilePage/>
     }
 ]
 

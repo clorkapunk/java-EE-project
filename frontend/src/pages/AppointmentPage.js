@@ -46,7 +46,7 @@ const AppointmentPage = observer(() => {
                     overlay={
                         <Popover>
                             <Popover.Body style={{display: 'flex', flexDirection: 'column', paddingInline: 0}}>
-                                    <Button variant="outline-dark" style={{border: 0, borderRadius: 0}}><FontAwesomeIcon icon={faPrint} /> Print ticket</Button>
+                                    <Button variant="outline-dark" style={{border: 0, borderRadius: 0}}><FontAwesomeIcon style={{marginRight: 5}} icon={faPrint} /> Print ticket</Button>
                             </Popover.Body>
                         </Popover>
                     }

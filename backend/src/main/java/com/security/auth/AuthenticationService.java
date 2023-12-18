@@ -49,6 +49,7 @@ public class AuthenticationService {
               .gender(request.getGender())
               .office(request.getOffice())
               .schedule(request.getSchedule())
+              .verified(true)
               .build();
     }
     else {
@@ -66,6 +67,7 @@ public class AuthenticationService {
               .gender(request.getGender())
               .office("")
               .schedule("")
+              .verified(false)
               .build();
     }
     var savedUser = repository.save(user);

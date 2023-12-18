@@ -37,6 +37,7 @@ public class User implements UserDetails {
   private String dob;
   private String office;
   private String schedule;
+  private Boolean verified;
 
 
   @Getter
