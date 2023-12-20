@@ -1,5 +1,6 @@
 package com.security.specialization;
 
+import com.security.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,5 @@ public class SpecializationService {
         return repository.findAll();
     }
 
-    public Specialization findOneById(Integer id){return repository.findById(id).orElseThrow();}
+    public Specialization findOneById(Integer id){return repository.findById(id).orElseThrow(() -> new ApiRequestException("Specialization is not found"));}
 }

@@ -1,5 +1,6 @@
 package com.security.hospital;
 
+import com.security.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,5 @@ public class HospitalService {
         return repository.findAll();
     }
 
-    public Hospital findOneById(Integer id){return repository.findById(id).orElseThrow();}
+    public Hospital findOneById(Integer id){return repository.findById(id).orElseThrow(() -> new ApiRequestException("Hospital is not found"));}
 }

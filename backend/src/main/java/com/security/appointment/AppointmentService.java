@@ -1,5 +1,6 @@
 package com.security.appointment;
 
+import com.security.exception.ApiRequestException;
 import com.security.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,10 @@ public class AppointmentService {
         return repository.findAll();
     }
 
-    public List<Appointment> findAllByPatient(User user) {return repository.findAllByPatient(user).orElseThrow(); }
+    public List<Appointment> findAllByPatient(User user) {return repository.findAllByPatient(user).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 
-    public Appointment findAppointmentByPatientAndId(User user, Integer id) { return  repository.findAppointmentByPatientAndId(user, id).orElseThrow(); }
+    public Appointment findAppointmentByPatientAndId(User user, Integer id) { return  repository.findAppointmentByPatientAndId(user, id).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 
-    public List<Appointment> findAllByDoctor(User user) {return repository.findAllByDoctor(user).orElseThrow(); }
+    public List<Appointment> findAllByDoctor(User user) {return repository.findAllByDoctor(user).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 
 }

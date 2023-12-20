@@ -1,5 +1,6 @@
 package com.security.user;
 
+import com.security.exception.ApiRequestException;
 import com.security.specialization.Specialization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,6 +37,6 @@ public class UserService {
         repository.save(user);
     }
 
-    public User findOneById(Integer id){return repository.findById(id).orElseThrow();}
+    public User findOneById(Integer id){return repository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));}
 
 }

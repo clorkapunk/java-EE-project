@@ -2,6 +2,7 @@ package com.security.demo;
 
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
+import com.security.exception.ApiRequestException;
 import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserRepository;
@@ -29,7 +30,7 @@ public class PatientController {
     @GetMapping("{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     public User getUserById(@PathVariable("userId") Integer id){
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
     }
 
     record NewUserRequest(

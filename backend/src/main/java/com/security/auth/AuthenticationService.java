@@ -1,6 +1,8 @@
 package com.security.auth;
 
 import com.security.config.JwtService;
+import com.security.exception.ApiException;
+import com.security.exception.ApiRequestException;
 import com.security.token.Token;
 import com.security.token.TokenRepository;
 import com.security.token.TokenType;
@@ -137,7 +139,7 @@ public class AuthenticationService {
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
       var user = this.repository.findByEmail(userEmail)
-              .orElseThrow();
+              .orElseThrow(() -> new ApiRequestException("User is not found!"));
 
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user, user.getId());
@@ -149,6 +151,9 @@ public class AuthenticationService {
                 .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }
+//      else{
+//        throw new ApiRequestException("Token is expired! Please login again.");
+//      }
     }
   }
 }
