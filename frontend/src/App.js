@@ -20,6 +20,7 @@ const App = observer(() => {
                 user.setUser({id: data.id, email: data.sub, role: data.role})
                 user.setIsAuth(true)
             })
+                .catch(e => {})
         }
     }, [])
 

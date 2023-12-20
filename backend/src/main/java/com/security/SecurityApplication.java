@@ -1,5 +1,7 @@
 package com.security;
 
+import com.security.PaymentBill.BillRequest;
+import com.security.PaymentBill.BillService;
 import com.security.appointment.AppointmentRequest;
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
@@ -32,7 +34,8 @@ public class SecurityApplication {
 			AppointmentService bookService,
 			HospitalService hospitalService,
 			SpecializationService specializationService,
-			AppointmentService appointmentService
+			AppointmentService appointmentService,
+			BillService billService
 	) {
 		return args -> {
 			var hospital = HospitalRequest.builder()
@@ -110,7 +113,7 @@ public class SecurityApplication {
 					.build();
 			appointmentService.save(appointment);
 
-			var appointment2 = AppointmentRequest.builder()
+			appointment = AppointmentRequest.builder()
 					.date("1992-02-02")
 					.time("18:00-18:20")
 					.note("Heart")
@@ -119,9 +122,9 @@ public class SecurityApplication {
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
 					.build();
-			appointmentService.save(appointment2);
+			appointmentService.save(appointment);
 
-			var appointment3 = AppointmentRequest.builder()
+			appointment = AppointmentRequest.builder()
 					.date("1992-02-02")
 					.time("18:00-18:20")
 					.note("Heart")
@@ -131,7 +134,35 @@ public class SecurityApplication {
 					.doctor(userService.findOneById(2))
 					.build();
 
-			appointmentService.save(appointment3);
+			appointmentService.save(appointment);
+
+			var bill = BillRequest.builder()
+					.total("7000")
+					.description("For shoe covers")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.status("NOTPAID")
+					.build();
+			billService.save(bill);
+
+			bill = BillRequest.builder()
+					.total("8000")
+					.description("For water in toilet")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.status("PAID")
+					.build();
+			billService.save(bill);
+
+			bill = BillRequest.builder()
+					.total("1000")
+					.description("For air")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.status("NOTPAID")
+					.build();
+			billService.save(bill);
+
 
 //			var book = BookRequest.builder()
 //					.id(1)

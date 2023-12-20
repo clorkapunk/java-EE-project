@@ -1,0 +1,23 @@
+.bills-tabs .nav-item .nav-link {
+    background: white;
+    border: 0;
+    color: black;
+    border-radius: 50px;
+    width: auto !important;
+    margin-inline: 20px;
+    font-size: 0.95rem;
+    padding-block: 5px;
+    padding-inline: 20px;
+    transition: all 0.3s;
+}
+
+.bills-tabs .nav-item .nav-link.active{
+    border: 1px solid black;
+    transition: all 0.3s;
+}
+
+.bills-table-header{
+    background: transparent;
+    border: 0px;
+    text-align: center;
+}

@@ -4,6 +4,7 @@ import App from './App';
 import UserStore from "./UserStore";
 import AppRouter from "./AppRouter";
 import {BrowserRouter} from "react-router-dom";
+import './style.css'
 
 export const Context = createContext(null)
 

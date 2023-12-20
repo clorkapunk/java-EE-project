@@ -83,6 +83,7 @@ const Appointments = observer(() => {
                         <Form>
                             {radioInputs.map(item =>
                                 <Form.Check
+                                    key={item}
                                     label={item}
                                     value={item}
                                     name="status-group"

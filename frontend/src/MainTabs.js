@@ -12,7 +12,7 @@ import BooksPutMenu from "./manager/BooksPutMenu";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import UnathorizedMessage from "./components/modal/UnathorizedMessage";
-import {faCalendarCheck, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarCheck, faFileInvoiceDollar, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const MainTabs = observer(() => {
@@ -60,10 +60,11 @@ const MainTabs = observer(() => {
                     </Col>
 
                     <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
-                        <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40}}>
-                            <Card.Img variant="top"
-                                      style={{width: "30%", alignSelf: "center", marginBottom: 30}}
-                                      src="https://uxwing.com/wp-content/themes/uxwing/download/hand-gestures/good-icon.png"/>
+                        <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                              onClick={() => {
+                                  user._isAuth ? navigate('/bills') : unathorizedAccessModal("Bills")
+                              }}>
+                            <FontAwesomeIcon style={{height: 80, marginBottom: 30}} icon={faFileInvoiceDollar} />
                             <Card.Text style={{textAlign: "center"}}>
                                 Bills
                             </Card.Text>

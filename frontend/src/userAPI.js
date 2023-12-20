@@ -23,8 +23,36 @@ export {
     $authHost
 }
 
-export const registration = async (firstname, lastname, email, password, role) => {
-    const {data} = await $host.post('/api/v1/auth/register', {firstname, lastname, email, password, role})
+export const registration = async (firstname,
+                                   lastname,
+                                   email,
+                                   password,
+                                   role,
+                                   iin,
+                                   number,
+                                   address,
+                                   gender,
+                                   dob,
+                                   office,
+                                   schedule,
+                                   hostital,
+                                   specialization) => {
+    const {data} = await $host.post('/api/v1/auth/register', {
+        firstname,
+        lastname,
+        email,
+        password,
+        role,
+        iin,
+        number,
+        address,
+        gender,
+        dob,
+        office,
+        schedule,
+        hostital,
+        specialization
+    })
     localStorage.setItem('token', data.access_token)
     return jwtDecode(data.access_token)
 }

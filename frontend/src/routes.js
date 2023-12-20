@@ -4,6 +4,8 @@ import Register from "./pages/Register";
 import Appointments from "./pages/Appointments";
 import AppointmentPage from "./pages/AppointmentPage";
 import ProfilePage from "./pages/ProfilePage";
+import Bills from "./pages/Bills";
+import BillPage from "./pages/BillPage";
 
 export const authRoutes = [
     {
@@ -17,6 +19,14 @@ export const authRoutes = [
     {
         path: '/profile',
         Component: <ProfilePage/>
+    },
+    {
+        path: '/bills',
+        Component: <Bills/>
+    },
+    {
+        path: '/bill/:id',
+        Component: <BillPage/>
     }
 ]
 
