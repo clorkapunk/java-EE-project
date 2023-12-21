@@ -6,6 +6,8 @@ import com.security.appointment.AppointmentRequest;
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
 import com.security.appointment.AppointmentService;
+import com.security.hospital.Hospital;
+import com.security.hospital.HospitalRepository;
 import com.security.hospital.HospitalRequest;
 import com.security.hospital.HospitalService;
 import com.security.specialization.SpecializationRequest;
@@ -35,7 +37,8 @@ public class SecurityApplication {
 			HospitalService hospitalService,
 			SpecializationService specializationService,
 			AppointmentService appointmentService,
-			BillService billService
+			BillService billService,
+			HospitalRepository hospitalRepository
 	) {
 		return args -> {
 			var hospital = HospitalRequest.builder()
@@ -114,7 +117,7 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("1992-02-02")
+					.date("2023-12-20")
 					.time("18:00-18:20")
 					.note("Heart")
 					.status("APPROVED")
@@ -125,7 +128,7 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("1992-02-02")
+					.date("2023-12-21")
 					.time("18:00-18:20")
 					.note("Heart")
 					.status("SENT")
@@ -162,6 +165,11 @@ public class SecurityApplication {
 					.status("NOTPAID")
 					.build();
 			billService.save(bill);
+
+			var hosp = hospitalRepository.findById(1).orElseThrow();
+			hosp.setDistrictDoctor(userService.findOneById(1));
+			hospitalRepository.save(hosp);
+
 
 
 //			var book = BookRequest.builder()

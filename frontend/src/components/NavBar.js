@@ -1,8 +1,10 @@
 import React, {useContext} from 'react';
-import {Button, Container} from "react-bootstrap";
+import {Button, Container, Nav} from "react-bootstrap";
 import {Context} from "../index";
-import {useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHospital} from "@fortawesome/free-solid-svg-icons";
 
 
 const NavBar = observer(() => {
@@ -32,9 +34,30 @@ const NavBar = observer(() => {
                            alignItems: "center",
                            justifyContent: 'space-between',
                        }}>
-                <p style={{margin: 0, cursor: "pointer"}}
+                <p style={{margin: 0, cursor: "pointer", display: "flex", alignItems: "center"}}
                     onClick={() => navigate('/')}
-                >Java EE Spring Boot, Frontend</p>
+                >
+                    <FontAwesomeIcon style={{height: 30, marginRight: 15}} className='link-success' icon={faHospital} />
+                    <p style={{margin: 0,  fontWeight: "bold", fontSize: '1.5em'}}>JavaMed</p>
+                </p>
+                <Nav className="auto">
+                    <NavLink className='navbar-nav-link' to={'/'} style={{marginInline: 20, textDecoration: "none"}}>
+                        <p style={{margin: 0, marginBottom: 5}}>Home</p>
+                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                    </NavLink>
+                    <NavLink className='navbar-nav-link' to={'/appointments'} style={{marginInline: 20, textDecoration: "none"}}>
+                        <p style={{margin: 0, marginBottom: 5}}>Appontments</p>
+                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                    </NavLink>
+                    <NavLink className='navbar-nav-link' to={'/profile'} style={{marginInline: 20, textDecoration: "none"}}>
+                        <p style={{margin: 0, marginBottom: 5}}>Profile</p>
+                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                    </NavLink>
+                    <NavLink className='navbar-nav-link' to={'/bills'} style={{marginInline: 20, textDecoration: "none"}}>
+                        <p style={{margin: 0, marginBottom: 5}}>Bills</p>
+                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                    </NavLink>
+                </Nav>
                 <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     <p style={{margin: 0}}>{user._user.email || ""}</p>
                     <Button

@@ -24,7 +24,7 @@ public class BillController {
     public Bill findAllAppointmentsByPatientAndId(@PathVariable("userId") Integer id,
                                                   @PathVariable("billId") Integer aId){
         var user = userService.findOneById(id);
-        return service.findAppointmentByPatientAndId(user, aId);
+        return service.findBillByPatientAndId(user, aId);
     }
 
     @GetMapping("patient/{userId}")

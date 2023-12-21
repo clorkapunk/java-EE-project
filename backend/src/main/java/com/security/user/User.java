@@ -1,6 +1,7 @@
 package com.security.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.security.appointment.Appointment;
 import com.security.hospital.Hospital;
 import com.security.specialization.Specialization;
@@ -65,6 +66,10 @@ public class User implements UserDetails {
   @JsonIgnore
   @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
   private List<Appointment> appointments;
+
+  @JsonIgnore
+  @OneToOne(mappedBy = "districtDoctor", cascade = CascadeType.REMOVE)
+  private Hospital districtDoctor2;
 
 
   @Override

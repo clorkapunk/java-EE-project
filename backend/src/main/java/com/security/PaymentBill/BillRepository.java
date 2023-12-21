@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
     Optional<List<Bill>> findAllByPatient(User patient);
-    Optional<Bill> findAppointmentByPatientAndId(User patient, Integer id);
+    Optional<Bill> findBillByPatientAndId(User patient, Integer id);
     Optional<List<Bill>> findAllByDoctor(User doctor);
 }

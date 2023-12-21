@@ -11,4 +11,5 @@ public class HospitalRequest {
     private Integer id;
     private String title;
     private String address;
+    private Integer districtDoctor;
 }

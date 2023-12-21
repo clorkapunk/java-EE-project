@@ -16,7 +16,8 @@ const UnathorizedMessage = ({show, onHide, title}) => {
             <Modal
                 show={show}
                 onHide={onHide}
-                backdrop="static"
+                backdrop={true}
+                // style={{background: 'rgba(0, 0, 0, 0.4)'}}
                 keyboard={false}
                 centered
             >
@@ -26,7 +27,7 @@ const UnathorizedMessage = ({show, onHide, title}) => {
 
                 <Modal.Body style={{display: "flex", alignItems: "center"}}>
                     <FontAwesomeIcon style={{height: 20, marginRight: 10}} icon={faCircleInfo}/>
-                    <p style={{margin: 0}}>Услуга "{title}" доступна только для авторизованных пользователей.</p>
+                    <p style={{margin: 0}}>The "{title}" service is available only to authorized users.</p>
                 </Modal.Body>
                 <Modal.Footer style={{border: 0, paddingTop: 0, justifyContent: "space-between"}}>
                     <Button variant="secondary"

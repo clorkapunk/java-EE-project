@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -27,6 +28,8 @@ public class Bill {
     private String description;
     private String total;
     private String status;
+
+    private LocalDateTime deadline;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

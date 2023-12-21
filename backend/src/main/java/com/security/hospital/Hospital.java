@@ -1,6 +1,9 @@
 package com.security.hospital;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.security.token.Token;
 import com.security.user.User;
 import jakarta.persistence.*;
@@ -30,6 +33,11 @@ public class Hospital {
     private Integer id;
     private String title;
     private String address;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "hospital"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "district_doctor_id")
+    private User districtDoctor;
 
     @JsonIgnore
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.REMOVE)

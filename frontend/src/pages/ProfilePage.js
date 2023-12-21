@@ -2,9 +2,9 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, CardBody, CardTitle, Col, Container, OverlayTrigger, Popover, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faBars,
+    faBars, faCalendarCheck,
     faCheck,
-    faChevronRight,
+    faChevronRight, faFileInvoiceDollar,
     faGear, faLock,
     faPenToSquare,
     faPrint, faTrashCan,
@@ -104,7 +104,21 @@ const ProfilePage = observer(() => {
                         <Button variant='outline-success'
                                 onClick={() => navigate('/appointments')}
                                 style={{ border: 0, color: "black",padding: 15,display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                            <p style={{margin: 0}}>Go to your appointments</p>
+                            <div style={{display: "flex", alignItems: "center"}}>
+                                <FontAwesomeIcon style={{marginRight: 10}} icon={faCalendarCheck} />
+                                <p style={{margin: 0}}>Go to your appointments</p>
+                            </div>
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </Button>
+                    </Card>
+                    <Card style={{cursor: "pointer", border: 0}} className="mt-2">
+                        <Button variant='outline-info'
+                                onClick={() => navigate('/bills')}
+                                style={{ border: 0, color: "black",padding: 15,display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                            <div style={{display: "flex", alignItems: "center"}}>
+                                <FontAwesomeIcon style={{marginRight: 10}} icon={faFileInvoiceDollar} />
+                                <p style={{margin: 0}}>Go to your bills</p>
+                            </div>
                             <FontAwesomeIcon icon={faChevronRight} />
                         </Button>
                     </Card>
