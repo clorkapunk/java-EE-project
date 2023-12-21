@@ -67,7 +67,7 @@ public class SecurityApplication {
 					.schedule("")
 					.role(ADMIN)
 					.build();
-			System.out.println("Admin token: " + service.register(admin).getAccessToken());
+			System.out.println(service.register(admin).getAccessToken());
 
 			var doctor = RegisterRequest.builder()
 					.hospital(hospitalService.findOneById(1))
@@ -106,8 +106,8 @@ public class SecurityApplication {
 
 
 			var appointment = AppointmentRequest.builder()
-					.date("1992-02-02")
-					.time("18:00-18:20")
+					.date("2023-12-22")
+					.time("9:40-10:00")
 					.note("Heart")
 					.status("COMPLETED")
 					.result("")
@@ -117,8 +117,8 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-20")
-					.time("18:00-18:20")
+					.date("2023-12-21")
+					.time("14:00-14:20")
 					.note("Heart")
 					.status("APPROVED")
 					.result("")
@@ -129,7 +129,7 @@ public class SecurityApplication {
 
 			appointment = AppointmentRequest.builder()
 					.date("2023-12-21")
-					.time("18:00-18:20")
+					.time("14:20-14:40")
 					.note("Heart")
 					.status("SENT")
 					.result("")
@@ -167,7 +167,7 @@ public class SecurityApplication {
 			billService.save(bill);
 
 			var hosp = hospitalRepository.findById(1).orElseThrow();
-			hosp.setDistrictDoctor(userService.findOneById(1));
+			hosp.setDistrictDoctor(userService.findOneById(2));
 			hospitalRepository.save(hosp);
 
 

@@ -41,6 +41,7 @@ public class User implements UserDetails {
   private Boolean verified;
 
 
+  @JsonIgnore
   @Getter
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -72,11 +73,13 @@ public class User implements UserDetails {
   private Hospital districtDoctor2;
 
 
+  @JsonIgnore
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return role.getAuthorities();
   }
 
+  @JsonIgnore
   @Override
   public String getPassword() {
     return password;
@@ -87,21 +90,25 @@ public class User implements UserDetails {
     return email;
   }
 
+  @JsonIgnore
   @Override
   public boolean isAccountNonExpired() {
     return true;
   }
 
+  @JsonIgnore
   @Override
   public boolean isAccountNonLocked() {
     return true;
   }
 
+  @JsonIgnore
   @Override
   public boolean isCredentialsNonExpired() {
     return true;
   }
 
+  @JsonIgnore
   @Override
   public boolean isEnabled() {
     return true;

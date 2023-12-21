@@ -1,77 +1,76 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Button, Card, CardBody, CardText, CardTitle, Form, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
+import {Context} from "../index";
 
-const DistrictDoctorPagenation = observer(() => {
+const DistrictDoctorPagenation = observer(({items}) => {
     const navigate = useNavigate()
 
-
-
-    const [cards, setCards] = useState([
+    const testData = [
         [
             {
                 date: '1992-02-02',
-                availableTime: ['18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20']
+                availableTime: []
             },
             {
                 date: '1992-02-03',
-                availableTime: ['18:20-19:23', '18:20-19:23', '18:20-19:23', '18:20-19:23']
+                availableTime: []
             },
             {
                 date: '1992-02-04',
-                availableTime: ['18:20-19:24', '18:20-19:24', '18:20-19:24', '18:20-19:24']
+                availableTime: []
             },
             {
                 date: '1992-02-05',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             },
             {
                 date: '1992-02-06',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             }
         ],
         [{
             date: '1992-02-02',
-            availableTime: ['18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20']
+            availableTime: []
         },
             {
                 date: '1992-02-03',
-                availableTime: ['18:20-19:23', '18:20-19:23', '18:20-19:23', '18:20-19:23']
+                availableTime: []
             },
             {
                 date: '1992-02-04',
-                availableTime: ['18:20-19:24', '18:20-19:24', '18:20-19:24', '18:20-19:24']
+                availableTime: []
             },
             {
                 date: '1992-02-05',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             },
             {
                 date: '1992-02-06',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             }],
         [{
             date: '1992-02-02',
-            availableTime: ['18:20-19:20', '18:20-19:20', '18:20-19:20', '18:20-19:20']
+            availableTime: []
         },
             {
                 date: '1992-02-03',
-                availableTime: ['18:20-19:23', '18:20-19:23', '18:20-19:23', '18:20-19:23']
+                availableTime: []
             },
             {
                 date: '1992-02-04',
-                availableTime: ['18:20-19:24', '18:20-19:24', '18:20-19:24', '18:20-19:24']
+                availableTime: []
             },
             {
                 date: '1992-02-05',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             },
             {
                 date: '1992-02-06',
-                availableTime: ['18:20-19:25', '18:20-19:25', '18:20-19:25', '18:20-19:25']
+                availableTime: []
             }],
         [{
             date: '1992-02-02',
@@ -93,10 +92,23 @@ const DistrictDoctorPagenation = observer(() => {
                 date: '1992-02-06',
                 availableTime: []
             }]
-    ])
+    ]
+    const [cards, setCards] = useState(testData)
     const [page, setPage] = useState(0)
-    const [date, setDate] = useState(cards[page][0].date)
+    const [date, setDate] = useState("")
     const [time, setTime] = useState('')
+
+
+    useEffect(() => {
+        try {
+            console.log(items[0])
+            setDate(items[page][0].date)
+            setCards(items)
+        } catch (e) {
+        }
+
+
+    }, [items])
 
     return (
         <>
@@ -113,9 +125,9 @@ const DistrictDoctorPagenation = observer(() => {
                                 onClick={() => {
                                     if (page === 0) return
                                     setPage(prevState => {
+                                        setDate(cards[prevState - 1][0].date)
                                         return prevState - 1
                                     })
-                                    setDate(cards[page][0].date)
                                 }}
                                 style={{border: 0, background: "transparent", color: "black", fontSize: '1.3em'}}
                             >
@@ -129,7 +141,10 @@ const DistrictDoctorPagenation = observer(() => {
                                       onClick={() => setDate(item.date)}
                                       style={{width: 110, height: 100, marginInline: 2, cursor: "pointer"}}
                                       className={date === item.date ?
-                                          "district-doctor-page-date-card active"
+                                          (
+                                              "district-doctor-page-date-card active"
+                                          )
+
                                           :
                                           "district-doctor-page-date-card"
                                       }
@@ -156,9 +171,9 @@ const DistrictDoctorPagenation = observer(() => {
                                 onClick={() => {
                                     if (page === 3) return
                                     setPage(prevState => {
+                                        setDate(cards[prevState + 1][0].date)
                                         return prevState + 1
                                     })
-                                    setDate(cards[page][0].date)
                                 }}
                                 style={{border: 0, background: "transparent", color: "black", fontSize: '1.3em'}}
                             >
@@ -170,8 +185,8 @@ const DistrictDoctorPagenation = observer(() => {
 
                     <p className='mb-4' style={{margin: 0, fontWeight: "bold"}}>Choose time</p>
                     <Row xxl={6} xs={6} className='mb-5'>
-                        {
-                            cards[page].find(item => item.date === date).availableTime.length === 0
+                        {cards[page].find(item => item.date === date) !== undefined &&
+                            (cards[page].find(item => item.date === date).availableTime.length === 0
                                 ?
                                 <div style={{
                                     background: '#F9FAFB',
@@ -180,7 +195,9 @@ const DistrictDoctorPagenation = observer(() => {
                                     borderRadius: 10,
                                     width: '100%'
                                 }}>
-                                    <p style={{margin: 0, opacity: 0.9, fontSize: '0.9em', textAlign: "center"}}>There is no free time for an appointment or appointment on the selected date is prohibited, select another date</p>
+                                    <p style={{margin: 0, opacity: 0.9, fontSize: '0.9em', textAlign: "center"}}>There
+                                        is no free time for an appointment or appointment on the selected date is
+                                        prohibited, select another date</p>
                                 </div>
                                 :
                                 cards[page].find(item => item.date === date).availableTime.map(item =>
@@ -197,7 +214,7 @@ const DistrictDoctorPagenation = observer(() => {
                                     >
                                         {item}
                                     </Button>
-                                )
+                                ))
                         }
                     </Row>
                     <div className='mb-2'>
@@ -224,17 +241,22 @@ const DistrictDoctorPagenation = observer(() => {
                             Come to medical organization&nbsp;
                         </p>
                         <p style={{margin: 0, fontWeight: "bolder"}}>
-                            {new Date(date).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})}&nbsp;
+                            {new Date(date).toLocaleDateString("en-US", {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                            })}&nbsp;
                         </p>
                         <p style={{margin: 0, fontWeight: "bolder"}}>
-                            {time.substring(0,time.indexOf('-'))}
+                            {time.substring(0, time.indexOf('-'))}
                         </p>
                     </CardText>
                     <Card.Body style={{padding: 30, display: "flex", flexDirection: "column"}}>
                         <Form>
                             <Form.Group className="mb-5" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label style={{color: 'black', opacity:0.7, fontSize: '0.9em'}}>Reason for visit</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
+                                <Form.Label style={{color: 'black', opacity: 0.7, fontSize: '0.9em'}}>Reason for
+                                    visit</Form.Label>
+                                <Form.Control as="textarea" rows={3}/>
                             </Form.Group>
                         </Form>
                         <div className='mb-2' style={{display: "flex", justifyContent: "space-between"}}>

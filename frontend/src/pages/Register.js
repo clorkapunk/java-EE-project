@@ -4,8 +4,6 @@ import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {login, registration} from "../userAPI";
-import 'react-phone-number-input/style.css'
-import PhoneInput from "react-phone-number-input";
 
 const Auth = observer(() => {
             const {user} = useContext(Context)

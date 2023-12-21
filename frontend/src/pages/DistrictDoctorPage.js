@@ -32,10 +32,8 @@ const DistrictDoctorPage = observer(() => {
     useEffect(() => {
         $authHost.get('/api/v1/patient/' + user.user.id).then(data => {
             setData(data.data)
-            console.log(data.data)
             $authHost.get('/api/v1/appointments/available/' + data.data.hospital.districtDoctor.id).then(data => {
                 setAppointData(data.data)
-                console.log(data.data)
             })
         })
     }, [])
@@ -88,7 +86,7 @@ const DistrictDoctorPage = observer(() => {
                 height: '100%',
                 boxShadow: "0px 0px 8px 0px rgba(34, 60, 80, 0.2)"
             }}>
-                <DistrictDoctorPagenation  />
+                <DistrictDoctorPagenation items={appointData} />
             </Card>
         </Container>
     );
