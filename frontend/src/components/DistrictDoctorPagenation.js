@@ -9,7 +9,7 @@ import {Context} from "../index";
 const DistrictDoctorPagenation = observer(({items, post}) => {
     const navigate = useNavigate()
 
-    const testData = [
+    const testData =    [
         [
             {
                 date: '1992-02-02',
@@ -101,12 +101,11 @@ const DistrictDoctorPagenation = observer(({items, post}) => {
 
 
     useEffect(() => {
-        try {
-            setDate(items[page][0].date)
-            setCards(items)
-            setTime('')
-        } catch (e) {
-        }
+
+        if (items[page] === undefined) return
+        setDate(items[page][0].date)
+        setCards(items)
+        setTime('')
 
 
     }, [items])
@@ -256,8 +255,10 @@ const DistrictDoctorPagenation = observer(({items, post}) => {
                     <Card.Body style={{padding: 30, display: "flex", flexDirection: "column"}}>
                         <Form>
                             <Form.Group className="mb-5" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label style={{color: 'black', opacity: 0.7, fontSize: '0.9em'}}>Reason for visit</Form.Label>
-                                <Form.Control as="textarea" rows={3} value={note} onChange={(e) => setNote(e.target.value)}/>
+                                <Form.Label style={{color: 'black', opacity: 0.7, fontSize: '0.9em'}}>Reason for
+                                    visit</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={note}
+                                              onChange={(e) => setNote(e.target.value)}/>
                             </Form.Group>
                         </Form>
                         <div className='mb-2' style={{display: "flex", justifyContent: "space-between"}}>

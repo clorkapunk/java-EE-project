@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, CardText, CardTitle, Container, ListGroup, OverlayTrigger, Popover} from "react-bootstrap";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {observer} from "mobx-react-lite";
-import {$authHost} from "../userAPI";
 import {Context} from "../index";
-import appointments from "./Appointments";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {$authHost} from "../userAPI";
+import {Button, Card, CardTitle, Container, OverlayTrigger, Popover} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faPrint} from "@fortawesome/free-solid-svg-icons";
+import {observer} from "mobx-react-lite";
 
-const AppointmentPage = observer(() => {
+const DoctorAppointmentPage = observer(() => {
     const {user} = useContext(Context)
     const {id} = useParams()
     const location = useLocation();
@@ -27,7 +26,7 @@ const AppointmentPage = observer(() => {
     })
 
     useEffect(() => {
-        $authHost.get('/api/v1/appointments/doctor/' + user.user.id + "/" + id).then(data => {
+        $authHost.get('/api/v1/appointments/patient/' + id + "/" + user.user.id).then(data => {
             setAppointment(data.data)
         })
 
@@ -45,7 +44,7 @@ const AppointmentPage = observer(() => {
                     overlay={
                         <Popover>
                             <Popover.Body style={{display: 'flex', flexDirection: 'column', paddingInline: 0}}>
-                                    <Button variant="outline-dark" style={{border: 0, borderRadius: 0}}><FontAwesomeIcon style={{marginRight: 5}} icon={faPrint} /> Print ticket</Button>
+                                <Button variant="outline-dark" style={{border: 0, borderRadius: 0}}><FontAwesomeIcon style={{marginRight: 5}} icon={faPrint} /> Print ticket</Button>
                             </Popover.Body>
                         </Popover>
                     }
@@ -101,4 +100,4 @@ const AppointmentPage = observer(() => {
     );
 });
 
-export default AppointmentPage;
+export default DoctorAppointmentPage;

@@ -40,6 +40,7 @@ public class AppointmentService {
     public List<Appointment> findAllByPatient(User user) {return repository.findAllByPatient(user).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 
     public Appointment findAppointmentByPatientAndId(User user, Integer id) { return  repository.findAppointmentByPatientAndId(user, id).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
+    public Appointment findAppointmentByDoctorAndId(User user, Integer id) { return  repository.findAppointmentByDoctorAndId(user, id).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 
     public List<Appointment> findAllByDoctor(User user) {return repository.findAllByDoctor(user).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
 

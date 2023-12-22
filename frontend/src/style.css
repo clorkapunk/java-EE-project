@@ -72,3 +72,17 @@
     background: grey !important;
 }
 
+.doctor-calendar-appointment.active{
+    background: #27B085;
+    cursor: pointer;
+}
+
+.doctor-calendar-appointment.active:hover{
+    filter: brightness(1.15);
+    transition: all 0.5s;
+}
+
+.doctor-calendar-appointment.active p{
+    color: black !important;
+}
+

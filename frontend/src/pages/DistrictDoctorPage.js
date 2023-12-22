@@ -63,7 +63,6 @@ const DistrictDoctorPage = observer(() => {
     useEffect(() => {
         $authHost.get('/api/v1/patient/' + user.user.id).then(data => {
             setData(data.data)
-            console.log(data.data)
             $authHost.get('/api/v1/appointments/available/' + data.data.hospital.districtDoctor.id).then(data => {
                 setAppointData(data.data)
             })
@@ -84,7 +83,6 @@ const DistrictDoctorPage = observer(() => {
         .replace(' ', ': ')
         .replaceAll('-', ' - ')
         .replaceAll(/(?:^|(?<= ))(MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?= )|$)/g, function (match) {
-            console.log(match)
         return replace_map[match];
     })
 

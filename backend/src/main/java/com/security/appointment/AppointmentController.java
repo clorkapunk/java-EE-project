@@ -48,7 +48,7 @@ public class AppointmentController {
     ) {
     }
 
-    private ArrayList<String> timePeriod20(String start, String end){
+    public static ArrayList<String> timePeriod20(String start, String end){
         ArrayList<String> result = new ArrayList<>();
         LocalTime first = LocalTime.parse(start);
         if(first.getMinute() % 20 != 0){
@@ -126,6 +126,14 @@ public class AppointmentController {
         return service.findAllByDoctor(user);
     }
 
+    @GetMapping("doctor/{userId}/{appointmentId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    @Hidden
+    public Appointment findAppointmentByDoctorAndId(@PathVariable("userId") Integer id,
+                                                         @PathVariable("appointmentId") Integer aId) {
+        var user = userService.findOneById(id);
+        return service.findAppointmentByDoctorAndId(user, aId);
+    }
     @GetMapping
     @PreAuthorize("hasAuthority('doctor:read')")
     public ResponseEntity<List<Appointment>> findAllAppointments() {

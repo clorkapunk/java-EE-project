@@ -63,6 +63,15 @@ const NavBar = observer(() => {
                             </NavLink>
                         </>
                     }
+                    {
+                        (user.user.role === "DOCTOR" || user.user.role === "ADMIN") &&
+                        <>
+                            <NavLink className='navbar-nav-link' to={'/appointment-schedule'} style={{marginInline: 20, textDecoration: "none"}}>
+                                <p style={{margin: 0, marginBottom: 5}}>Schedule</p>
+                                <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                            </NavLink>
+                        </>
+                    }
 
                 </Nav>
                 <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>

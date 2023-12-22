@@ -12,7 +12,13 @@ import BooksPutMenu from "./manager/BooksPutMenu";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import UnathorizedMessage from "./components/modal/UnathorizedMessage";
-import {faCalendarCheck, faFileInvoiceDollar, faUser, faUserDoctor} from "@fortawesome/free-solid-svg-icons";
+import {
+    faCalendarCheck,
+    faCalendarDays,
+    faFileInvoiceDollar,
+    faUser,
+    faUserDoctor
+} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import DiscrictDoctorModal from "./components/modal/DiscrictDoctorModal";
 import firstImg from './images/1.jpg'
@@ -120,7 +126,23 @@ const MainTabs = observer(() => {
 
                         </>
                     }
+                    {(user.user.role === "DOCTOR" || user.user.role === "ADMIN") &&
+                        <>
+                            <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          user._isAuth ? navigate('/appointment-schedule') : unathorizedAccessModal("Schedule")
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faCalendarDays}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        Schedule
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+                        </>
 
+                    }
 
 
 

@@ -74,7 +74,6 @@ const ProfilePage = observer(() => {
         .replace(' ', ': ')
         .replaceAll('-', ' - ')
         .replaceAll(/(?:^|(?<= ))(MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?= )|$)/g, function (match) {
-            console.log(match)
             return replace_map[match];
         })
 
@@ -156,7 +155,7 @@ const ProfilePage = observer(() => {
                         <Button variant='outline-success'
                                 onClick={() =>
                                     user.user.role === "DOCTOR" ?
-                                        navigate('/')
+                                        navigate('/appointment-schedule')
                                         :
                                         navigate('/appointments')
                                 }

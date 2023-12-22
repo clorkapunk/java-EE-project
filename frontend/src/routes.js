@@ -7,6 +7,7 @@ import ProfilePage from "./pages/ProfilePage";
 import Bills from "./pages/Bills";
 import BillPage from "./pages/BillPage";
 import DistrictDoctorPage from "./pages/DistrictDoctorPage";
+import DoctorAppointmentsSchedulePage from "./pages/DoctorAppointmentsSchedulePage";
 
 export const authRoutes = [
     {
@@ -32,6 +33,10 @@ export const authRoutes = [
     {
         path: '/district-doctor',
         Component: <DistrictDoctorPage/>
+    },
+    {
+        path: '/appointment-schedule',
+        Component: <DoctorAppointmentsSchedulePage/>
     }
 ]
 
