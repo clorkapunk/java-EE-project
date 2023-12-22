@@ -1,5 +1,6 @@
 package com.security.demo;
 
+import com.security.appointment.Appointment;
 import com.security.appointment.AppointmentRepository;
 import com.security.appointment.AppointmentRequest;
 import com.security.appointment.AppointmentService;
@@ -62,9 +63,9 @@ public class PatientController {
     ){}
 
     @PostMapping("/appointment")
-    @PreAuthorize("hasAuthority('admin:create')")
+    @PreAuthorize("hasAuthority('user:create')")
     @Hidden
-    public void addUser(@RequestBody NewAppointmentRequest request) {
+    public Integer addUser(@RequestBody NewAppointmentRequest request) {
         var user = userService.findOneById(request.patientId());
         var doctor = userService.findOneById(request.doctorId());
         var appointment = AppointmentRequest.builder()
@@ -76,7 +77,7 @@ public class PatientController {
                 .patient(user)
                 .doctor(doctor)
                 .build();
-        appointmentService.save(appointment);
+        return appointmentService.save(appointment);
     }
 
     @DeleteMapping("{userId}")

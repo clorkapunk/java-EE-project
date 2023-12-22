@@ -1,6 +1,7 @@
 package com.security.demo;
 
 import com.security.appointment.AppointmentRequest;
+import com.security.exception.ApiRequestException;
 import com.security.user.User;
 import com.security.user.UserRepository;
 import com.security.appointment.Appointment;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,9 +49,10 @@ public class DoctorController {
 
     )
 
-    @GetMapping("/userById/{userId}")
-    public Optional<User> getUser(@PathVariable("userId") Integer id){
-        return userRepository.findById(id);
+    @GetMapping("{userId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public User getUserById(@PathVariable("userId") Integer id){
+        return userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
     }
 
 

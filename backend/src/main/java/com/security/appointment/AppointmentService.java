@@ -14,8 +14,8 @@ public class AppointmentService {
 
     private final AppointmentRepository repository;
 
-    public void save(AppointmentRequest request) {
-        var book = Appointment.builder()
+    public Integer save(AppointmentRequest request) {
+        var appointment = Appointment.builder()
                 .id(request.getId())
                 .patient(request.getPatient())
                 .doctor(request.getDoctor())
@@ -25,7 +25,12 @@ public class AppointmentService {
                 .status(request.getStatus() == null ? "SENT" : request.getStatus())
                 .result(request.getResult() == null ? "" : request.getResult())
                 .build();
-        repository.save(book);
+        repository.save(appointment);
+        return appointment.getId();
+    }
+
+    public Optional<Appointment> findOneByAllExceptId(User patient, User doctor, String date, String time, String note){
+        return repository.findAppointmentByPatientAndDoctorAndDateAndTimeAndNote(patient, doctor, date, time, note);
     }
 
     public List<Appointment> findAll() {

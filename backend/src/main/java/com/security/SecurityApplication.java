@@ -107,7 +107,7 @@ public class SecurityApplication {
 
 			var appointment = AppointmentRequest.builder()
 					.date("2023-12-22")
-					.time("9:40-10:00")
+					.time("09:40-10:00")
 					.note("Heart")
 					.status("COMPLETED")
 					.result("")
