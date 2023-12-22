@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -46,10 +48,23 @@ public class AppointmentController {
     ) {
     }
 
+    private ArrayList<String> timePeriod20(String start, String end){
+        ArrayList<String> result = new ArrayList<>();
+        LocalTime first = LocalTime.parse(start);
+        LocalTime second = first.plusMinutes(20);
+        LocalTime last = LocalTime.parse(end);
+        while(!second.equals(last)){
+            result.add(first.toString() + "-" + second.toString());
+            first.plusMinutes(20);
+            second = first.plusMinutes(20);
+        }
+        return result;
+    }
+
     @GetMapping("available/{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
-    public List<List<AvailableTime>> findAllAppointmentsByDoctor2(@PathVariable("userId") Integer id) {
+    public List<String> findAllAppointmentsByDoctor2(@PathVariable("userId") Integer id) {
         var user = userService.findOneById(id);
 
         var appointmentRaw = service.findAllByDoctor(user);
@@ -100,7 +115,7 @@ public class AppointmentController {
         }
 
 
-        return result;
+        return timePeriod20("08:00", "18:00");
     }
 
 

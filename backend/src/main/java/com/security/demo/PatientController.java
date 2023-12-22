@@ -1,8 +1,13 @@
 package com.security.demo;
 
+import com.security.appointment.AppointmentRepository;
+import com.security.appointment.AppointmentRequest;
+import com.security.appointment.AppointmentService;
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
 import com.security.exception.ApiRequestException;
+import com.security.hospital.HospitalService;
+import com.security.specialization.SpecializationService;
 import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserRepository;
@@ -19,12 +24,19 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
     private final UserRepository repository;
     private final AuthenticationService service;
+    private final AppointmentService appointmentService;
     private final UserService userService;
+    private final HospitalService hospitalService;
+    private final SpecializationService specializationService;
 
-    public PatientController(UserRepository repository, AuthenticationService service, UserService userService) {
+    public PatientController(UserRepository repository, AuthenticationService service, AppointmentRepository appointmentRepository, AppointmentService appointmentService, UserService userService, HospitalService hospitalService, SpecializationService specializationService) {
         this.repository = repository;
         this.service = service;
+        this.appointmentService = appointmentService;
+
         this.userService = userService;
+        this.hospitalService = hospitalService;
+        this.specializationService = specializationService;
     }
 
     @GetMapping("{userId}")
@@ -41,19 +53,30 @@ public class PatientController {
             String role
     ){}
 
-    @PostMapping
+    record NewAppointmentRequest(
+            String date,
+            String time,
+            String note,
+            Integer doctorId,
+            Integer patientId
+    ){}
+
+    @PostMapping("/appointment")
     @PreAuthorize("hasAuthority('admin:create')")
     @Hidden
-    public void addUser(@RequestBody NewUserRequest request){
-        var user = RegisterRequest.builder()
-                .firstname(request.firstname())
-                .lastname(request.lastname())
-                .email(request.email())
-                .password(request.password())
-                .role(request.role().equals("ADMIN") ? Role.ADMIN : Role.DOCTOR)
+    public void addUser(@RequestBody NewAppointmentRequest request) {
+        var user = userService.findOneById(request.patientId());
+        var doctor = userService.findOneById(request.doctorId());
+        var appointment = AppointmentRequest.builder()
+                .date(request.date())
+                .time(request.time())
+                .note(request.note())
+                .status(null)
+                .result(null)
+                .patient(user)
+                .doctor(doctor)
                 .build();
-        System.out.println(user);
-        service.register(user);
+        appointmentService.save(appointment);
     }
 
     @DeleteMapping("{userId}")

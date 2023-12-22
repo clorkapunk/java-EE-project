@@ -22,8 +22,8 @@ public class AppointmentService {
                 .date(request.getDate())
                 .time(request.getTime())
                 .note(request.getNote())
-                .status(request.getStatus())
-                .result(request.getResult())
+                .status(request.getStatus() == null ? "SENT" : request.getStatus())
+                .result(request.getResult() == null ? "" : request.getResult())
                 .build();
         repository.save(book);
     }
