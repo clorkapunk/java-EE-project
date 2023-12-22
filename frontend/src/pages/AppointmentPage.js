@@ -35,7 +35,6 @@ const AppointmentPage = observer(() => {
 
     const date = new Date(appointment.date).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
 
-    console.log(appointment)
     return (
         <Container style={{minHeight: '90vh'}} className="mt-3 w-50">
             <div style={{display: "flex", justifyContent: "space-between"}}>

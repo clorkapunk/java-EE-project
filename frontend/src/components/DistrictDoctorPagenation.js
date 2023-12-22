@@ -6,7 +6,7 @@ import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {Context} from "../index";
 
-const DistrictDoctorPagenation = observer(({items}) => {
+const DistrictDoctorPagenation = observer(({items, post}) => {
     const navigate = useNavigate()
 
     const testData = [
@@ -96,14 +96,15 @@ const DistrictDoctorPagenation = observer(({items}) => {
     const [cards, setCards] = useState(testData)
     const [page, setPage] = useState(0)
     const [date, setDate] = useState("")
-    const [time, setTime] = useState('')
+    const [time, setTime] = useState("")
+    const [note, setNote] = useState("")
 
 
     useEffect(() => {
         try {
-            console.log(items[0])
             setDate(items[page][0].date)
             setCards(items)
+            setTime('')
         } catch (e) {
         }
 
@@ -202,6 +203,7 @@ const DistrictDoctorPagenation = observer(({items}) => {
                                 :
                                 cards[page].find(item => item.date === date).availableTime.map(item =>
                                     <Button
+                                        key={item}
                                         className="district-doctor-page-time-card"
                                         style={{
                                             borderRadius: 50,
@@ -254,9 +256,8 @@ const DistrictDoctorPagenation = observer(({items}) => {
                     <Card.Body style={{padding: 30, display: "flex", flexDirection: "column"}}>
                         <Form>
                             <Form.Group className="mb-5" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label style={{color: 'black', opacity: 0.7, fontSize: '0.9em'}}>Reason for
-                                    visit</Form.Label>
-                                <Form.Control as="textarea" rows={3}/>
+                                <Form.Label style={{color: 'black', opacity: 0.7, fontSize: '0.9em'}}>Reason for visit</Form.Label>
+                                <Form.Control as="textarea" rows={3} value={note} onChange={(e) => setNote(e.target.value)}/>
                             </Form.Group>
                         </Form>
                         <div className='mb-2' style={{display: "flex", justifyContent: "space-between"}}>
@@ -269,10 +270,10 @@ const DistrictDoctorPagenation = observer(({items}) => {
                                 Back
                             </Button>
                             <Button variant='success' style={{paddingBlock: 10, paddingInline: 30}}
-                                    onClick={() => setTime('')}
+                                    onClick={() => post(date, time, note)}
                             >
 
-                                Sing up
+                                Sign up
                             </Button>
                         </div>
                     </Card.Body>

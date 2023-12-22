@@ -51,11 +51,14 @@ public class AppointmentController {
     private ArrayList<String> timePeriod20(String start, String end){
         ArrayList<String> result = new ArrayList<>();
         LocalTime first = LocalTime.parse(start);
+        if(first.getMinute() % 20 != 0){
+            first = first.withMinute(first.getMinute() / 20 * 20).plusMinutes(20);
+        }
         LocalTime second = first.plusMinutes(20);
         LocalTime last = LocalTime.parse(end);
-        while(!second.equals(last)){
+        while(!second.isAfter(last)){
             result.add(first.toString() + "-" + second.toString());
-            first.plusMinutes(20);
+            first = first.plusMinutes(20);
             second = first.plusMinutes(20);
         }
         return result;
@@ -64,7 +67,7 @@ public class AppointmentController {
     @GetMapping("available/{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
-    public List<String> findAllAppointmentsByDoctor2(@PathVariable("userId") Integer id) {
+    public List<List<AvailableTime>> findAllAppointmentsByDoctor2(@PathVariable("userId") Integer id) {
         var user = userService.findOneById(id);
 
         var appointmentRaw = service.findAllByDoctor(user);
@@ -77,24 +80,20 @@ public class AppointmentController {
 
         List<List<AvailableTime>> result = new ArrayList<>();
 
-        // available times for monday, wednesday and friday
-
-        var timeForOdd = new ArrayList<String>(Arrays.asList("8:00-8:20", "8:20-8:40", "8:40-9:00", "9:00-9:20", "9:20-9:40",
-                "9:40-10:00", "10:00-10:20", "10:20-10:40", "10:40-11:00", "11:20-11:40", "11:20-11:40",
-                "11:40-12:00"));
-        // available times for thursday and tuesday
-        var timeForEven = new ArrayList<String>(Arrays.asList("14:00-14:20", "14:20-14:40", "14:40-15:00", "15:00-15:20",
-                "15:20-15:40", "15:40-16:00", "16:00-16:20", "16:20-16:40", "16:40-17:00", "17:00-17:20",
-                "17:20-17:40", "17:40-18:00"));
-
         var days = 0;
         for (int i = 0; i < 4; i++) {
             List<AvailableTime> temp = new ArrayList<>();
             for (int j = 0; j < 5; j++) {
                 String dayOfWeek = LocalDate.now().plusDays(days).getDayOfWeek().toString();
                 ArrayList<String> timeTemp;
-                if (List.of("MONDAY", "WEDNESDAY", "FRIDAY").contains(dayOfWeek)) timeTemp = timeForOdd;
-                else if (List.of("THURSDAY", "TUESDAY").contains(dayOfWeek)) timeTemp = timeForEven;
+                if (List.of("MONDAY", "WEDNESDAY", "FRIDAY").contains(dayOfWeek)) {
+                    if(days == 0) timeTemp = timePeriod20(LocalTime.now().toString(), "12:00");
+                    else timeTemp = timePeriod20("08:00", "12:00");
+                }
+                else if (List.of("THURSDAY", "TUESDAY").contains(dayOfWeek)) {
+                    if(days == 0) timeTemp = timePeriod20(LocalTime.now().toString(), "18:00");
+                    else timeTemp = timePeriod20("14:00", "18:00");
+                }
                 else timeTemp = new ArrayList<>();
                 temp.add(new AvailableTime(LocalDate.now().plusDays(days).toString(), timeTemp));
                 days += 1;
@@ -115,7 +114,7 @@ public class AppointmentController {
         }
 
 
-        return timePeriod20("08:00", "18:00");
+        return result;
     }
 
 

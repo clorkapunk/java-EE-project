@@ -66,32 +66,6 @@ const MainTabs = observer(() => {
                     <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
                         <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
                               onClick={() => {
-                                  setDistrictDoctorModalVisible(true)
-                              }}>
-                            <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
-                                             icon={faUserDoctor}/>
-                            <Card.Text style={{textAlign: "center"}}>
-                                District doctor
-                            </Card.Text>
-                        </Card>
-                    </Col>
-
-                    <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
-                        <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
-                              onClick={() => {
-                                  user._isAuth ? navigate('/appointments') : unathorizedAccessModal("Appointments")
-                              }}>
-                            <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
-                                             icon={faCalendarCheck}/>
-                            <Card.Text style={{textAlign: "center"}}>
-                                Appointments
-                            </Card.Text>
-                        </Card>
-                    </Col>
-
-                    <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
-                        <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
-                              onClick={() => {
                                   user._isAuth ? navigate('/profile') : unathorizedAccessModal("Profile page")
                               }}>
                             <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
@@ -102,18 +76,55 @@ const MainTabs = observer(() => {
                         </Card>
                     </Col>
 
-                    <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
-                        <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
-                              onClick={() => {
-                                  user._isAuth ? navigate('/bills') : unathorizedAccessModal("Bills")
-                              }}>
-                            <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
-                                             icon={faFileInvoiceDollar}/>
-                            <Card.Text style={{textAlign: "center"}}>
-                                Bills
-                            </Card.Text>
-                        </Card>
-                    </Col>
+                    {(user.user.role === "USER" || user.user.role === "ADMIN") &&
+                        <>
+
+                            <Col className="m-2"
+                                 style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          setDistrictDoctorModalVisible(true)
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faUserDoctor}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        District doctor
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+                            <Col className="m-2"
+                                 style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          user._isAuth ? navigate('/appointments') : unathorizedAccessModal("Appointments")
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faCalendarCheck}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        Appointments
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+                            <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          user._isAuth ? navigate('/bills') : unathorizedAccessModal("Bills")
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faFileInvoiceDollar}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        Bills
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+
+                        </>
+                    }
+
+
+
+
+
 
                 </Row>
 

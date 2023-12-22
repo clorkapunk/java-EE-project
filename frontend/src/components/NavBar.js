@@ -45,18 +45,25 @@ const NavBar = observer(() => {
                         <p style={{margin: 0, marginBottom: 5}}>Home</p>
                         <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                     </NavLink>
-                    <NavLink className='navbar-nav-link' to={'/appointments'} style={{marginInline: 20, textDecoration: "none"}}>
-                        <p style={{margin: 0, marginBottom: 5}}>Appontments</p>
-                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
-                    </NavLink>
                     <NavLink className='navbar-nav-link' to={'/profile'} style={{marginInline: 20, textDecoration: "none"}}>
                         <p style={{margin: 0, marginBottom: 5}}>Profile</p>
                         <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                     </NavLink>
-                    <NavLink className='navbar-nav-link' to={'/bills'} style={{marginInline: 20, textDecoration: "none"}}>
-                        <p style={{margin: 0, marginBottom: 5}}>Bills</p>
-                        <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
-                    </NavLink>
+                    {
+                        (user.user.role === "USER" || user.user.role === "ADMIN") &&
+                        <>
+                            <NavLink className='navbar-nav-link' to={'/appointments'} style={{marginInline: 20, textDecoration: "none"}}>
+                                <p style={{margin: 0, marginBottom: 5}}>Appontments</p>
+                                <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                            </NavLink>
+
+                            <NavLink className='navbar-nav-link' to={'/bills'} style={{marginInline: 20, textDecoration: "none"}}>
+                                <p style={{margin: 0, marginBottom: 5}}>Bills</p>
+                                <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                            </NavLink>
+                        </>
+                    }
+
                 </Nav>
                 <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     <p style={{margin: 0}}>{user._user.email || ""}</p>

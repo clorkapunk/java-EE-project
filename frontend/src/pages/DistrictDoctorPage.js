@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 import {Context} from "../index";
 import {$authHost} from "../userAPI";
 import DistrictDoctorPagenation from "../components/DistrictDoctorPagenation";
+import {da} from "@faker-js/faker";
+import Login from "./Login";
 
 const DistrictDoctorPage = observer(() => {
     const [data, setData] = useState({
@@ -15,7 +17,18 @@ const DistrictDoctorPage = observer(() => {
         email: 'sample',
         number: 'sample',
         hospital: {
-            title: 'sample'
+            title: 'sample',
+            address: 'sample',
+            districtDoctor: {
+                firstname: 'sample',
+                lastname: 'sample',
+                specialization: {
+                    id: 'sample',
+                    title: 'sample'
+                },
+                schedule: 'sample',
+                office: 'sample'
+            }
         },
         address: 'sample',
         iin: 'sample',
@@ -24,19 +37,56 @@ const DistrictDoctorPage = observer(() => {
         verified: false
     })
     const [appointData, setAppointData] = useState('')
+    const [loadNewData, setLoadNewData] = useState(false)
 
     const navigate = useNavigate()
 
     const {user} = useContext(Context)
 
+    function postAppointment(date, time, note) {
+        $authHost.post('/api/v1/patient/appointment', {
+            date: date, time: time, patientId: user.user.id, doctorId: data.hospital.districtDoctor.id, note: note
+        }).then(data => {
+
+                navigate('/appointment/' + data.data)
+                // setLoadNewData(prevState => {
+                //     return !prevState
+                // })
+            }
+        ).catch(
+            e => console.log(e)
+        )
+
+    }
+
+
     useEffect(() => {
         $authHost.get('/api/v1/patient/' + user.user.id).then(data => {
             setData(data.data)
+            console.log(data.data)
             $authHost.get('/api/v1/appointments/available/' + data.data.hospital.districtDoctor.id).then(data => {
                 setAppointData(data.data)
             })
         })
-    }, [])
+    }, [loadNewData])
+
+    const replace_map = {
+        'MON': 'Monday',
+        'FRI': 'Friday',
+        'TUE': 'Tuesday',
+        'WED': 'Wednesday',
+        'THU': 'Thursday',
+        'SAT': 'Saturday',
+        'SUN': 'Sunday'
+    };
+
+    const schedule = data.hospital.districtDoctor.schedule
+        .replace(' ', ': ')
+        .replaceAll('-', ' - ')
+        .replaceAll(/(?:^|(?<= ))(MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?= )|$)/g, function (match) {
+            console.log(match)
+        return replace_map[match];
+    })
 
 
     return (
@@ -61,21 +111,20 @@ const DistrictDoctorPage = observer(() => {
                     <div style={{display: "flex", width: '100%', justifyContent: "space-between"}}>
                         <p style={{width: '30%', color: "gray"}}>Clinic</p>
                         <p style={{width: '70%'}}>
-                            title
+                            {data.hospital.title}
                             <br/>
-                            address
+                            {data.hospital.address}
                             <br/>
-                            District: doctor
+                            District: {data.hospital.districtDoctor.specialization.id + " " + data.hospital.districtDoctor.specialization.title}
                         </p>
                     </div>
                     <div style={{display: "flex", width: '100%', justifyContent: "space-between"}}>
                         <p style={{width: '30%', color: "gray"}}>Work schedule</p>
                         <p style={{width: '70%'}}>
-                            Appointment
+                            Doctor: {data.hospital.districtDoctor.firstname + ' ' + data.hospital.districtDoctor.lastname},
+                            office №{data.hospital.districtDoctor.office}
                             <br/>
-                            Doctor, cab
-                            <br/>
-                            schedule
+                            {schedule}
                         </p>
                     </div>
                 </Card.Body>
@@ -86,7 +135,7 @@ const DistrictDoctorPage = observer(() => {
                 height: '100%',
                 boxShadow: "0px 0px 8px 0px rgba(34, 60, 80, 0.2)"
             }}>
-                <DistrictDoctorPagenation items={appointData} />
+                <DistrictDoctorPagenation items={appointData} post={postAppointment}/>
             </Card>
         </Container>
     );

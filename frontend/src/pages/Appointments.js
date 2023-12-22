@@ -116,6 +116,14 @@ const Appointments = observer(() => {
                                     if (filters.status === '') return true
                                     return status.status.toLowerCase() === filters.status.toLowerCase()
                                 })
+                                .sort((a, b) => {
+                                        const first = Date.parse(a.date + " " + a.time.substring(0,a.time.indexOf('-')))
+                                        const second = Date.parse(b.date + " " + b.time.substring(0,b.time.indexOf('-')))
+                                        if(first > second) return  -1;
+                                        else if (first < second) return 1;
+                                        else return 0;
+                                    }
+                                )
                                 .map(item =>
                                     <AppointmentItem key={item.id} item={item}/>
                                 )

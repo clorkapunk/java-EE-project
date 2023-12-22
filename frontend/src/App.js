@@ -5,7 +5,7 @@ import PostMenu from "./admin/PostMenu";
 import PutMenu from "./admin/PutMenu";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, useNavigate} from "react-router-dom";
 import AppRouter from "./AppRouter";
 import {check} from "./userAPI";
 import NavBar from "./components/NavBar";
@@ -14,13 +14,19 @@ import Footer from "./components/Footer";
 const App = observer(() => {
     const {user} = useContext(Context)
 
+    const logOut = () => {
+        user.setUser({})
+        user.setIsAuth(false)
+        localStorage.removeItem("token")
+    }
+
     useEffect(() => {
         if(localStorage.getItem("token") !== null) {
             check().then(data => {
                 user.setUser({id: data.id, email: data.sub, role: data.role})
                 user.setIsAuth(true)
             })
-                .catch(e => {})
+                .catch(e => {logOut()})
         }
     }, [])
 
