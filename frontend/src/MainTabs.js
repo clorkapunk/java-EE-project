@@ -82,7 +82,7 @@ const MainTabs = observer(() => {
                         </Card>
                     </Col>
 
-                    {(user.user.role === "USER" || user.user.role === "ADMIN") &&
+                    {(user.user.role === "USER" || user.user.role === "ADMIN" || !user.isAuth) &&
                         <>
 
                             <Col className="m-2"

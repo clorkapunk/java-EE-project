@@ -70,10 +70,20 @@ const DoctorCalendarItem = observer(({item}) => {
                             <div key={item.time}>
                                 <Card.Text
                                     onClick={() => {
-                                        item.appointment !== null && navigate('/appointment/' + item.appointment.id)
+                                        item.appointment !== null && navigate('/doctor-appointment/' + item.appointment.id)
                                     }}
                                     className={item.appointment !== null ?
-                                        "doctor-calendar-appointment active"
+                                        (item.appointment.status === "APPROVED" ?
+                                                "doctor-calendar-appointment approved active"
+                                                :
+                                                (item.appointment.status === "COMPLETED" ?
+                                                        "doctor-calendar-appointment completed active"
+                                                        :
+                                                        (item.appointment.status === "CANCELLED") &&
+                                                        "doctor-calendar-appointment cancelled active "
+
+                                                )
+                                        )
                                         :
                                         "doctor-calendar-appointment"
                                     }

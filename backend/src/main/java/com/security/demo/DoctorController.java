@@ -130,6 +130,12 @@ public class DoctorController {
     public ArrayList<ArrayList<ScheduleDay>> getAllAppointments(@PathVariable("userId") Integer id) {
         var user = userService.findOneById(id);
         var appointments = appointmentService.findAllByDoctor(user);
+
+        // takes only approved appointments
+        appointments = appointments.stream().filter(x -> {
+            return x.getStatus().equals("APPROVED") || x.getStatus().equals("COMPLETED") || x.getStatus().equals("CANCELLED");
+        }).toList();
+
         ArrayList<ArrayList<ScheduleDay>> result = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
@@ -144,6 +150,21 @@ public class DoctorController {
 
         return result;
     }
+
+    record UpdateAppointmentRequest(
+            String result
+    ){}
+
+    @PutMapping("/appointment/{appointmentId}")
+    @PreAuthorize("hasAuthority('doctor:update')")
+    public void updateAppointment(@PathVariable Integer appointmentId, @RequestBody AppointmentRequest request){
+        var appointment = appointmentService.findOneById(appointmentId);
+        appointment.setStatus("COMPLETED");
+        appointment.setResult(request.getResult() == null ? appointment.getResult() : request.getResult());
+        appointmentRepository.save(appointment);
+    }
+
+
 
 
     @PostMapping

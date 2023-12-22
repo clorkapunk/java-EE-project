@@ -72,7 +72,9 @@ public class AppointmentController {
 
         var appointmentRaw = service.findAllByDoctor(user);
         List<Appointment> appointmentsFiltered;
-        appointmentsFiltered = appointmentRaw.stream().filter(x -> {
+        appointmentsFiltered = appointmentRaw.stream()
+                .filter(x -> x.getStatus().equals("APPROVED"))
+                .filter(x -> {
                     LocalDate date = LocalDate.parse(x.getDate());
                     return date.isAfter(LocalDate.now().minusDays(1));
                 }
@@ -116,7 +118,6 @@ public class AppointmentController {
 
         return result;
     }
-
 
     @GetMapping("doctor/{userId}")
     @PreAuthorize("hasAuthority('doctor:read')")

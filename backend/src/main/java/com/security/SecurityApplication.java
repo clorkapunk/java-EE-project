@@ -18,16 +18,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import static com.security.user.Role.*;
 
 @SpringBootApplication
+@EnableScheduling
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class SecurityApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SecurityApplication.class, args);
 	}
+
 
 	@Bean
 	public CommandLineRunner commandLineRunner(
@@ -120,7 +123,7 @@ public class SecurityApplication {
 					.date("2023-12-21")
 					.time("14:00-14:20")
 					.note("Heart")
-					.status("APPROVED")
+					.status("SENT")
 					.result("")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
@@ -129,7 +132,7 @@ public class SecurityApplication {
 
 			appointment = AppointmentRequest.builder()
 					.date("2023-12-21")
-					.time("15:20-15:40")
+					.time("14:00-14:20")
 					.note("Heart")
 					.status("SENT")
 					.result("")

@@ -30,7 +30,7 @@ const AppointmentItem = ({item}) => {
                 <hr style={{marginBlock: 10}}/>
                 <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Status<br/>{item.status}</Card.Text>
                 <hr style={{marginBlock: 10}}/>
-                <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Note<br/>{item.note}</Card.Text>
+                <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Note<br/>{item.note}&nbsp;</Card.Text>
                 <hr style={{marginBlock: 10}}/>
                 <Button style={{fontSize: "0.8rem"}} variant="outline-info"
                         onClick={() => navigate('/appointment/' + item.id)

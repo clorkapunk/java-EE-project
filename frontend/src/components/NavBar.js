@@ -50,7 +50,7 @@ const NavBar = observer(() => {
                         <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                     </NavLink>
                     {
-                        (user.user.role === "USER" || user.user.role === "ADMIN") &&
+                        (user.user.role === "USER" || user.user.role === "ADMIN" || !user.isAuth) &&
                         <>
                             <NavLink className='navbar-nav-link' to={'/appointments'} style={{marginInline: 20, textDecoration: "none"}}>
                                 <p style={{margin: 0, marginBottom: 5}}>Appontments</p>

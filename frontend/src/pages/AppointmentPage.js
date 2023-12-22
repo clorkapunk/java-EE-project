@@ -27,7 +27,7 @@ const AppointmentPage = observer(() => {
     })
 
     useEffect(() => {
-        $authHost.get('/api/v1/appointments/doctor/' + user.user.id + "/" + id).then(data => {
+        $authHost.get('/api/v1/appointments/patient/' + user.user.id + "/" + id).then(data => {
             setAppointment(data.data)
         })
 
