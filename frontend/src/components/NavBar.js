@@ -70,6 +70,14 @@ const NavBar = observer(() => {
                                 <p style={{margin: 0, marginBottom: 5}}>Schedule</p>
                                 <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                             </NavLink>
+                            <NavLink className='navbar-nav-link' to={'/doctor-bills'} style={{marginInline: 20, textDecoration: "none"}}>
+                                <p style={{margin: 0, marginBottom: 5}}>Bills</p>
+                                <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                            </NavLink>
+                            <NavLink className='navbar-nav-link' to={'/patients'} style={{marginInline: 20, textDecoration: "none"}}>
+                                <p style={{margin: 0, marginBottom: 5}}>Patients</p>
+                                <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                            </NavLink>
                         </>
                     }
 

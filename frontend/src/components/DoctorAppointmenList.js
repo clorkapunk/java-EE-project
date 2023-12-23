@@ -21,7 +21,8 @@ const DoctorAppointmenList = observer(({tab}) => {
 
     return (
         <>
-            <Form className="doctor-schedule-list-hide-check-switch mb-2" style={{display:"flex", justifyContent: "end", flexDirection: "column"}}>
+            <Form className="doctor-schedule-list-hide-check-switch mb-2"
+                  style={{display: "flex", justifyContent: "end", flexDirection: "column"}}>
                 <Form.Check
                     type="switch"
                     id="custom-switch"
@@ -50,77 +51,107 @@ const DoctorAppointmenList = observer(({tab}) => {
             <Row xs={1}>
                 {data
                     .filter(x => {
-                        if(cancelledVilible && x.status === "CANCELLED"){
+                        if (cancelledVilible && x.status === "CANCELLED") {
                             return true
-                        }
-                        else if(completedVilible && x.status === "COMPLETED"){
+                        } else if (completedVilible && x.status === "COMPLETED") {
                             return true
-                        }
-                        else if(approvedVilible && x.status === "APPROVED"){
+                        } else if (approvedVilible && x.status === "APPROVED") {
                             return true
-                        }
-                        else return false
-                    })
-                    .map(item =>
+                        } else return false
+                    }).length !== 0 ?
+
+                    data
+                        .filter(x => {
+                            if (cancelledVilible && x.status === "CANCELLED") {
+                                return true
+                            } else if (completedVilible && x.status === "COMPLETED") {
+                                return true
+                            } else if (approvedVilible && x.status === "APPROVED") {
+                                return true
+                            } else return false
+                        })
+                        .map(item =>
+                            <Col className='mb-2'>
+                                <Card.Text
+                                    onClick={() => {
+                                        item !== null && navigate('/doctor-appointment/' + item.id)
+                                    }}
+                                    style={{
+                                        display: "flex",
+                                        margin: 0,
+                                        paddingBlock: 10,
+                                        justifyContent: "start",
+                                        alignItems: "center",
+                                        width: '100%',
+                                        cursor: 'pointer',
+                                        background: "white",
+                                        boxShadow: "0px 0px 8px 0px rgba(34, 60, 80, 0.2)"
+                                    }}
+
+
+                                >
+
+                                    <div
+                                        style={{
+                                            paddingBlock: 5, paddingInline: 10, borderRadius: 0, color: "white",
+                                            fontWeight: "bold", width: '10%', marginLeft: 10, textAlign: "center"
+                                        }}
+                                        className={item !== null ?
+                                            (item.status === "APPROVED" ?
+                                                    "doctor-calendar-appointment approved list"
+                                                    :
+                                                    (item.status === "COMPLETED" ?
+                                                            "doctor-calendar-appointment completed list"
+                                                            :
+                                                            (item.status === "CANCELLED") &&
+                                                            "doctor-calendar-appointment cancelled list"
+
+                                                    )
+                                            )
+                                            :
+                                            "doctor-calendar-appointment list"
+                                        }
+                                    >
+                                        {item.status}
+                                    </div>
+                                    <p style={{
+                                        margin: 0,
+                                        color: '#4D4D4D',
+                                        width: '25%',
+                                        textAlign: "center"
+                                    }}
+                                    >
+                                        {new Date(item.date).toLocaleDateString("en-US", {
+                                            day: 'numeric',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        }) + " " + item.time}
+                                    </p>
+                                    <p style={{margin: 0, width: '70%'}}>{item.note}</p>
+                                </Card.Text>
+                            </Col>
+                        )
+                :
                     <Col className='mb-1'>
                         <Card.Text
-                            onClick={() => {
-                                item !== null && navigate('/doctor-appointment/' + item.id)
-                            }}
                             style={{
                                 display: "flex",
                                 margin: 0,
-                                paddingBlock: 10,
+                                paddingBlock: 20,
                                 justifyContent: "start",
                                 alignItems: "center",
                                 width: '100%',
-                                cursor: 'pointer',
-                                background: "white"
+                                background: "white",
+                                boxShadow: "0px 0px 8px 0px rgba(34, 60, 80, 0.2)"
                             }}
 
 
                         >
 
-                            <div
-                                style={{
-                                    paddingBlock: 5, paddingInline: 10, borderRadius: 0, color: "white",
-                                    fontWeight: "bold", width: '10%', marginLeft: 10, textAlign: "center"
-                                }}
-                                className={item !== null ?
-                                    (item.status === "APPROVED" ?
-                                            "doctor-calendar-appointment approved list"
-                                            :
-                                            (item.status === "COMPLETED" ?
-                                                    "doctor-calendar-appointment completed list"
-                                                    :
-                                                    (item.status === "CANCELLED") &&
-                                                    "doctor-calendar-appointment cancelled list"
-
-                                            )
-                                    )
-                                    :
-                                    "doctor-calendar-appointment list"
-                                }
-                            >
-                                {item.status}
-                            </div>
-                            <p style={{
-                                margin: 0,
-                                color: '#4D4D4D',
-                                width: '25%',
-                                textAlign: "center"
-                            }}
-                            >
-                                {new Date(item.date).toLocaleDateString("en-US", {
-                                    day: 'numeric',
-                                    month: 'long',
-                                    year: 'numeric'
-                                }) + " " + item.time}
-                            </p>
-                            <p style={{margin: 0, width: '70%'}}>{item.note}</p>
+                            <p style={{margin: 0, width: '100%', textAlign: "center", fontSize: '1.1em'}}>No appointments according to these criteria.</p>
                         </Card.Text>
                     </Col>
-                )}
+                }
             </Row>
         </>
     );

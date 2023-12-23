@@ -24,6 +24,11 @@ const BillsList = observer(({status, updateList}) => {
                         if(status === "ALL") return true
                         return item.status === status
                     })
+                    .sort((x, y) => {
+                        if(x.id > y.id) return 1;
+                        else if(x.id < y.id) return -1;
+                        else return 0;
+                    })
                     .map(item =>
                     <BillItem key={item.id} item={item}/>
                 )
