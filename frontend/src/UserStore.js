@@ -4,17 +4,18 @@ export default class UserStore{
     constructor() {
         this._isAuth = false
         this._user = {}
-        this._items = []
+        this._doctorScheduleType = 'calendar'
         makeAutoObservable(this)
     }
 
-    setItems(items){
-        this._items = items
+    setDoctorScheduleType(title){
+        this._doctorScheduleType = title
     }
 
-    get items(){
-        return this._items
+    get doctorScheduleType(){
+        return this._doctorScheduleType
     }
+
 
     setIsAuth(bool){
         this._isAuth = bool
