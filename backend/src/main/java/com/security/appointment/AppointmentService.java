@@ -3,17 +3,20 @@ package com.security.appointment;
 import com.security.exception.ApiRequestException;
 import com.security.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AppointmentService {
 
     private final AppointmentRepository repository;
@@ -33,9 +36,9 @@ public class AppointmentService {
         return appointment.getId();
     }
 
-    @Scheduled(fixedRate = 60000)
-    public void reportCurrentTime() {
-        var appointments = findAllSent();
+    @Scheduled(fixedRate = 20000)
+    public void checkSentAppointments() {
+        var appointments = findAllByStatus("SENT");
         List<Appointment> newAppointments = new ArrayList<>();
         Map<String, List<Appointment>> appointmentsGrouped =
                 appointments.stream().collect(Collectors.groupingBy(Appointment::getDate));
@@ -68,12 +71,30 @@ public class AppointmentService {
         repository.saveAll(newAppointments);
     }
 
+    @Scheduled(fixedRate = 60000)
+    public void checkAppointmentToCancel() {
+        var appointments = findAllByStatus("APPROVED");
+        List<Appointment> newAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            var date = appointment.getDate();
+            var time = appointment.getTime();
+            time = time.substring(time.indexOf('-') + 1);
+            LocalDateTime dateTime = LocalDateTime.parse(date + "T" + time);
+            if (dateTime.isBefore(LocalDateTime.now())) {
+                appointment.setStatus("CANCELLED");
+            }
+            newAppointments.add(appointment);
+        }
+
+        repository.saveAll(newAppointments);
+    }
+
     public Optional<Appointment> findOneByAllExceptId(User patient, User doctor, String date, String time, String note) {
         return repository.findAppointmentByPatientAndDoctorAndDateAndTimeAndNote(patient, doctor, date, time, note);
     }
 
-    public List<Appointment> findAllSent() {
-        return repository.findAllByStatus("SENT").orElseThrow(() -> new ApiRequestException("Appointments are not found"));
+    public List<Appointment> findAllByStatus(String status) {
+        return repository.findAllByStatus(status).orElseThrow(() -> new ApiRequestException("Appointments are not found"));
     }
 
 

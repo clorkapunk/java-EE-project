@@ -6,10 +6,11 @@ import DoctorCalendar from "../components/DoctorCalendar";
 import {$authHost} from "../userAPI";
 import {useCol} from "react-bootstrap/Col";
 import {Context} from "../index";
+import DoctorAppointmenList from "../components/DoctorAppointmenList";
 
 const DoctorAppointmentsSchedulePage = observer(() => {
     const {user} = useContext(Context)
-    const [tab, setTab] = useState("all")
+    const [tab, setTab] = useState(user.doctorScheduleType)
     const testDataMini = [
         {
             date: '1992-02-02',
@@ -80,15 +81,17 @@ const DoctorAppointmentsSchedulePage = observer(() => {
         $authHost.get('/api/v1/doctor/schedule/' + user.user.id).then(data => { 
             setData(data.data)
         })
-    }, [])
+    }, [tab])
 
     return (
         <Container style={{minHeight: "90vh"}}>
             <h2 className="mb-4 mt-4 text-center">Schedule of future appointments</h2>
 
             <Tabs
-                onSelect={(e) => setTab(e)}
-                defaultActiveKey="calendar"
+                onSelect={(e) => {
+                    user.setDoctorScheduleType(e)
+                }}
+                defaultActiveKey={tab}
                 id="fill-tab-example"
                 className="mb-3 bills-tabs justify-content-center border-0"
             >
@@ -124,7 +127,7 @@ const DoctorAppointmentsSchedulePage = observer(() => {
                     <DoctorCalendar week={data[weekPage]}/>
                 </Tab>
                 <Tab eventKey="list" title="List">
-
+                    <DoctorAppointmenList tab={tab}/>
                 </Tab>
             </Tabs>
         </Container>

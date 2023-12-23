@@ -109,7 +109,7 @@ public class SecurityApplication {
 
 
 			var appointment = AppointmentRequest.builder()
-					.date("2023-12-22")
+					.date("2023-12-18")
 					.time("08:00-08:20")
 					.note("Heart")
 					.status("COMPLETED")
@@ -120,7 +120,7 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-21")
+					.date("2023-12-19")
 					.time("14:00-14:20")
 					.note("Heart")
 					.status("SENT")
@@ -131,15 +131,36 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
+					.date("2023-12-20")
+					.time("08:00-08:20")
+					.note("Heart")
+					.status("APPROVED")
+					.result("")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.build();
+			appointmentService.save(appointment);
+
+			appointment = AppointmentRequest.builder()
 					.date("2023-12-21")
 					.time("14:00-14:20")
 					.note("Heart")
-					.status("SENT")
+					.status("REJECTED")
 					.result("")
-					.patient(userService.findOneById(2))
+					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
 					.build();
+			appointmentService.save(appointment);
 
+			appointment = AppointmentRequest.builder()
+					.date("2023-12-22")
+					.time("08:00-08:20")
+					.note("Heart")
+					.status("CANCELLED")
+					.result("")
+					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.build();
 			appointmentService.save(appointment);
 
 			var bill = BillRequest.builder()

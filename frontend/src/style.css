@@ -79,7 +79,7 @@
 
 
 .doctor-calendar-appointment.cancelled.active{
-    background: #b02749;
+    background: #923543;
     cursor: pointer;
 }
 
@@ -96,5 +96,79 @@
 
 .doctor-calendar-appointment.active p{
     color: black !important;
+}
+
+.user-appointment-card-status-message{
+    visibility: hidden;
+    filter: brightness(1.3);
+    z-index: 100;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    left: 51%;
+    border-radius: 5px 0 0 5px;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    & h1 {
+        text-shadow: -1px 1px 4px rgba(0,0,0,0.5);
+    }
+
+}
+
+
+
+.user-appointment-card.cancelled {
+    filter: brightness(0.8);
+
+    .user-appointment-card-status-message{
+        visibility: visible;
+        background: #923543;
+    }
+}
+
+.user-appointment-card.completed {
+    filter: brightness(0.8);
+
+    .user-appointment-card-status-message{
+        visibility: visible;
+        background: #27B085;
+    }
+}
+
+.user-appointment-card.rejected {
+    filter: brightness(0.8);
+
+    .user-appointment-card-status-message{
+        visibility: visible;
+        background: #923543;
+    }
+}
+
+.user-appointment-card.sent {
+}
+
+.user-appointment-card.approved {
+}
+
+.doctor-calendar-appointment.list.cancelled {
+    background: #923543;
+}
+
+.doctor-calendar-appointment.list.completed {
+    background: #27B085;
+}
+
+.doctor-calendar-appointment.list.approved {
+    background: #277bb0;
+}
+
+.doctor-schedule-list-hide-check-switch .form-check-input:checked{
+    background-color: #27B085;
+    border-color: #27B085;
 }
 

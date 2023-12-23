@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
@@ -164,31 +165,35 @@ public class DoctorController {
         appointmentRepository.save(appointment);
     }
 
+    record ShortAppointmentsList(
+            @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctor", "patient"})
+            List<Appointment> appointments
+    ){}
+    @GetMapping("/appointments/{userId}")
+    @PreAuthorize("hasAuthority('doctor:update')")
+
+    public ShortAppointmentsList findAllBooks(@PathVariable Integer userId) {
+        List<Appointment> appointments = appointmentService.findAllByDoctor(userService.findOneById(userId));
+        appointments.sort((x, y) -> {
+            var date = x.getDate();
+            var time = x.getTime();
+            time = time.substring(0, time.indexOf('-'));
+            LocalDateTime dateTimeX = LocalDateTime.parse(date + "T" + time);
+
+            date = y.getDate();
+            time = y.getTime();
+            time = time.substring(0, time.indexOf('-'));
+            LocalDateTime dateTimeY = LocalDateTime.parse(date + "T" + time);
+            if (dateTimeX.isBefore(dateTimeY)) return -1;
+            else if (dateTimeX.isAfter(dateTimeY)) return 1;
+            else return 0;
+        });
+
+        appointments = appointments.stream().filter(x -> {
+            return x.getStatus().equals("APPROVED") || x.getStatus().equals("COMPLETED") || x.getStatus().equals("CANCELLED");
+        }).toList();
 
 
-
-    @PostMapping
-    public ResponseEntity<?> save(
-            @RequestBody AppointmentRequest request
-    ) {
-        appointmentService.save(request);
-        return ResponseEntity.accepted().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Appointment>> findAllBooks() {
-        return ResponseEntity.ok(appointmentService.findAll());
-    }
-
-    @DeleteMapping("{bookId}")
-    @Hidden
-    public void deleteBook(@PathVariable("bookId") Integer id) {
-        appointmentRepository.deleteById(id);
-    }
-
-    @PutMapping("{bookId}")
-    @Hidden
-    public void updateCustomer(@PathVariable("bookId") Integer id, @RequestBody AppointmentRequest request) {
-
+        return new ShortAppointmentsList(appointments);
     }
 }
