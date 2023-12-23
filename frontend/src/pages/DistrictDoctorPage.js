@@ -80,11 +80,13 @@ const DistrictDoctorPage = observer(() => {
     };
 
     const schedule = data.hospital.districtDoctor.schedule
-        .replace(' ', ': ')
+        .replace(' ', ' : ')
         .replaceAll('-', ' - ')
         .replaceAll(/(?:^|(?<= ))(MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?= )|$)/g, function (match) {
+            console.log(match)
         return replace_map[match];
     })
+        .replace(' : ', ': ')
 
 
     return (
@@ -113,7 +115,8 @@ const DistrictDoctorPage = observer(() => {
                             <br/>
                             {data.hospital.address}
                             <br/>
-                            District: {data.hospital.districtDoctor.specialization.id + " " + data.hospital.districtDoctor.specialization.title}
+                            Doctor
+                            specialization: {data.hospital.districtDoctor.specialization.id + " - " + data.hospital.districtDoctor.specialization.title}
                         </p>
                     </div>
                     <div style={{display: "flex", width: '100%', justifyContent: "space-between"}}>

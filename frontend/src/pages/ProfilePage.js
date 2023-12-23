@@ -118,7 +118,7 @@ const ProfilePage = observer(() => {
                         }}>
                             {data.firstname.at(0) + data.lastname.at(0)}
                         </div>
-                        <div style={{marginBottom: 10}}>
+                        <div style={{marginBottom: 10, textAlign: "center"}}>
                             {data.firstname} <br/> {data.lastname}
                         </div>
                         <div style={{

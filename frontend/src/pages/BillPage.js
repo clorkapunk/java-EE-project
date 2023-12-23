@@ -15,6 +15,7 @@ const BillPage = observer(() => {
     const [bill, setBill] = useState({
         id: 'sample',
         createdAt: '1992-01-01',
+        paidAt: '1992-01-01',
         doctor: {
             firstname: 'sample',
             lastname: 'sample',
@@ -37,14 +38,20 @@ const BillPage = observer(() => {
         total: 'sample',
         deadline: '1992-01-01'
     })
+    const [update, setUpdate] = useState(true)
+
+    function payTheBill(){
+        $authHost.put('/api/v1/bills/pay/' + user.user.id + '/' + id).then(data => {
+            setUpdate(prevState => {return !prevState})
+        })
+    }
 
     useEffect(() => {
         $authHost.get('/api/v1/bills/patient/' + user.user.id + "/" + id).then(data => {
             setBill(data.data)
-            console.log(data.data)
         })
 
-    }, [])
+    }, [update])
 
     const createdAt = new Date(bill.createdAt).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
     const deadline = new Date(bill.deadline).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
@@ -138,7 +145,13 @@ const BillPage = observer(() => {
                         <p style={{margin: 0, marginRight: 30}}>Invoice total</p>
                         <p style={{margin: 0, fontSize: "1.8em"}}>${bill.total}</p>
                     </div>
-                    <Button className="mt-2" variant='success' style={{width: 'auto', borderRadius: 0}}>Pay the bill</Button>
+                    {bill.status === "NOTPAID" ?
+                        <Button className="mt-2" variant='success' style={{width: 'auto', borderRadius: 0}}
+                                onClick={() => payTheBill()}
+                        >Pay the bill</Button>
+                        :
+                        <p className="mt-2" style={{margin: 0, textAlign: "left"}}>Date of payment: <br/>{new Date(bill.paidAt).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: "numeric"})}</p>
+                    }
                 </div>
                 <div style={{background: "white", paddingInline: 40, paddingTop: 20, paddingBottom: 20}}>
                     <p style={{fontSize: '0.9em'}}>
