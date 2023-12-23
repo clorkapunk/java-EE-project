@@ -17,7 +17,7 @@ import {
     faCalendarDays,
     faFileInvoiceDollar,
     faUser,
-    faUserDoctor
+    faUserDoctor, faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import DiscrictDoctorModal from "./components/modal/DiscrictDoctorModal";
@@ -137,6 +137,32 @@ const MainTabs = observer(() => {
                                                      icon={faCalendarDays}/>
                                     <Card.Text style={{textAlign: "center"}}>
                                         Schedule
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+
+                            <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          user._isAuth ? navigate('/') : unathorizedAccessModal("Bills")
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faFileInvoiceDollar}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        Bills
+                                    </Card.Text>
+                                </Card>
+                            </Col>
+
+                            <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                                <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                      onClick={() => {
+                                          user._isAuth ? navigate('/') : unathorizedAccessModal("Bills")
+                                      }}>
+                                    <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                     icon={faUserGroup}/>
+                                    <Card.Text style={{textAlign: "center"}}>
+                                        Patients
                                     </Card.Text>
                                 </Card>
                             </Col>
