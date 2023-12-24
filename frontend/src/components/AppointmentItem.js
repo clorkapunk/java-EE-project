@@ -2,18 +2,19 @@ import React, {useEffect} from 'react';
 import {Button, Card, Col} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
-const AppointmentItem = ({item}) => {
+const AppointmentItem = ({item, doctorView}) => {
     const navigate = useNavigate()
 
     const date = new Date(item.date).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
 
     const className = item.status.toLowerCase();
-
+    let style = {}
+    if(doctorView) style = {padding: 20, boxShadow: "0px 0px 0px 0px rgba(34, 60, 80, 0.2)"}
+    else style = {padding: 20, border: 0}
 
     return (
         <Col className="mb-4">
-
-            <Card style={{padding: 20, border: 0}}
+            <Card style={style}
                   className={"user-appointment-card " + className}
             >
                 <div className='user-appointment-card-status-message'>

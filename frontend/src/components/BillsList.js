@@ -10,9 +10,18 @@ const BillsList = observer(({status, updateList}) => {
     const [bills, setBills] = useState([])
 
     useEffect(() => {
-        $authHost.get('/api/v1/bills/patient/' + user.user.id).then(data => {
-            setBills(data.data)
-        })
+        if(user.user.role === "USER"){
+            $authHost.get('/api/v1/bills/patient/' + user.user.id).then(data => {
+                setBills(data.data)
+            })
+        }
+        else if (user.user.role === "DOCTOR"){
+            $authHost.get('/api/v1/doctor/bills/' + user.user.id).then(data => {
+                setBills(data.data.bills)
+            })
+        }
+
+
     }, [updateList])
 
 

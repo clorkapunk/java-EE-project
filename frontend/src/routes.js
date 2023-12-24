@@ -9,8 +9,8 @@ import BillPage from "./pages/BillPage";
 import DistrictDoctorPage from "./pages/DistrictDoctorPage";
 import DoctorAppointmentsSchedulePage from "./pages/DoctorAppointmentsSchedulePage";
 import DoctorAppointmentPage from "./pages/DoctorAppointmentPage";
-import DoctorBillsPage from "./pages/DoctorBillsPage";
 import Patients from "./pages/Patients";
+import PatientProfilePage from "./pages/PatientProfilePage";
 
 export const authRoutes = [
     {
@@ -46,12 +46,12 @@ export const authRoutes = [
         Component: <DoctorAppointmentPage/>
     },
     {
-        path: '/doctor-bills',
-        Component: <DoctorBillsPage/>
-    },
-    {
         path: '/patients',
         Component: <Patients/>
+    },
+    {
+        path: '/patient-profile/:id',
+        Component: <PatientProfilePage/>
     }
 
 ]

@@ -144,7 +144,7 @@ const MainTabs = observer(() => {
                             <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
                                 <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
                                       onClick={() => {
-                                          user._isAuth ? navigate('/doctor-bills') : unathorizedAccessModal("Bills")
+                                          user._isAuth ? navigate('/bills') : unathorizedAccessModal("Bills")
                                       }}>
                                     <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
                                                      icon={faFileInvoiceDollar}/>

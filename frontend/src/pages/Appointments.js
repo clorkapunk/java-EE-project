@@ -125,7 +125,7 @@ const Appointments = observer(() => {
                                     }
                                 )
                                 .map(item =>
-                                    <AppointmentItem key={item.id} item={item}/>
+                                    <AppointmentItem doctorView={false} key={item.id} item={item}/>
                                 )
                         }
                     </Row>

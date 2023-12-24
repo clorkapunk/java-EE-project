@@ -1,29 +1,28 @@
 package com.security.demo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.security.PaymentBill.Bill;
+import com.security.PaymentBill.BillRepository;
+import com.security.PaymentBill.BillRequest;
+import com.security.PaymentBill.BillService;
 import com.security.appointment.*;
 import com.security.exception.ApiRequestException;
+import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserRepository;
 import com.security.user.UserService;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 import static com.security.appointment.AppointmentController.timePeriod20;
 
@@ -36,17 +35,20 @@ public class DoctorController {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final BillService billService;
+    private final BillRepository billRepository;
 
-    public DoctorController(AppointmentService appointmentService, AppointmentRepository appointmentRepository, UserRepository userRepository, UserService userService) {
+    public DoctorController(AppointmentService appointmentService, AppointmentRepository appointmentRepository, UserRepository userRepository, UserService userService, BillService billService, BillRepository billRepository) {
         this.appointmentService = appointmentService;
         this.appointmentRepository = appointmentRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.billService = billService;
+        this.billRepository = billRepository;
     }
 
     @Operation(
-            description = "Get endpoint for manager",
-            summary = "This is a summary for management get endpoint",
+            description = "Controller for user with role: DOCTOR",
             responses = {
                     @ApiResponse(
                             description = "Success",
@@ -60,12 +62,68 @@ public class DoctorController {
 
     )
 
+
+    // get information about doctor for profile page
     @GetMapping("{userId}")
     @PreAuthorize("hasAuthority('doctor:read')")
     public User getUserById(@PathVariable("userId") Integer id) {
         return userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
     }
 
+
+    //get information about patient
+    record PatientShort(
+            @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "specialization", "schedule", "office"})
+            User user
+    ) {
+    }
+    @GetMapping("/patient/{userId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public PatientShort getPatientById(@PathVariable("userId") Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
+        return new PatientShort(user);
+    }
+
+
+    // get info about patient appointments
+    record AppointmentsShort(
+            @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "patient"})
+            List<Appointment> appointments
+    ) {
+    }
+    @GetMapping("/patient-appointments/{userId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public AppointmentsShort getPatientAppointmentsById(@PathVariable("userId") Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
+        List<Appointment> appointments = appointmentService.findAllByPatient(user);
+        return new AppointmentsShort(appointments);
+    }
+
+
+    //gel all issued bills
+    record BillsShort(
+            @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctor"})
+            List<Bill> bills
+    ) {
+    }
+    @GetMapping("/bills/{userId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public BillsShort getAllBills(@PathVariable("userId") Integer id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
+        return new BillsShort(billService.findAllByDoctor(user));
+    }
+
+
+    //gel information about single bill
+    @GetMapping("/bill/{billId}")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public Bill getBill(@PathVariable("billId") Integer id) {
+        return billService.findBillById(id);
+    }
+
+
+    // get information about doctor appointments and send in form of calendar
+    // specific appointment with time
     record TimeAppointment(
             String time,
             @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctor", "patient"})
@@ -73,12 +131,14 @@ public class DoctorController {
     ) {
     }
 
+    // day consists of TimeAppointment's
     record ScheduleDay(
             String date,
             ArrayList<TimeAppointment> schedule
     ) {
     }
 
+    // return a single day
     public ScheduleDay dayAppointments(String date, List<Appointment> appointments) {
         String dayOfWeek = LocalDate.parse(date).getDayOfWeek().toString();
         ArrayList<TimeAppointment> schedule = new ArrayList<>();
@@ -107,12 +167,13 @@ public class DoctorController {
         return new ScheduleDay(date, schedule);
     }
 
-    public ArrayList<ScheduleDay> weekAppointment(String date, List<Appointment> appointments){
+    // return a whole week
+    public ArrayList<ScheduleDay> weekAppointment(String date, List<Appointment> appointments) {
         var start = LocalDate.parse(date);
         var end = start.plusDays(6);
         ArrayList<ScheduleDay> result = new ArrayList<>();
 
-        while (start.isBefore(end)){
+        while (start.isBefore(end)) {
             LocalDate finalStart = start;
             var appointmentsDay = appointments.stream().filter(x -> {
                         LocalDate dateTemp = LocalDate.parse(x.getDate());
@@ -152,26 +213,86 @@ public class DoctorController {
         return result;
     }
 
-    record UpdateAppointmentRequest(
-            String result
-    ){}
 
+    // return information about patients
+    record ShortPatient(
+            Integer id,
+            String firstname,
+            String lastname,
+            String iin,
+            String number,
+            String address,
+            String gender,
+            String dob
+    ) {
+    }
+
+    @GetMapping("/patients")
+    @PreAuthorize("hasAuthority('doctor:read')")
+    public List<ShortPatient> getPatients() {
+        var patients = userRepository.findAllByRole(Role.USER).orElseThrow(() -> new ApiRequestException("No users with Role: USER  "));
+        List<ShortPatient> patientsNew = new ArrayList<>();
+        for (User patient : patients) {
+            patientsNew.add(new ShortPatient(
+                    patient.getId(),
+                    patient.getFirstname(),
+                    patient.getLastname(),
+                    patient.getIin(),
+                    patient.getNumber(),
+                    patient.getAddress(),
+                    patient.getGender(),
+                    patient.getDob()
+            ));
+        }
+        return patientsNew;
+    }
+
+
+    // update result of appointment and change status to COMPLETED
     @PutMapping("/appointment/{appointmentId}")
     @PreAuthorize("hasAuthority('doctor:update')")
-    public void updateAppointment(@PathVariable Integer appointmentId, @RequestBody AppointmentRequest request){
+    public void updateAppointment(@PathVariable Integer appointmentId, @RequestBody AppointmentRequest request) {
         var appointment = appointmentService.findOneById(appointmentId);
         appointment.setStatus("COMPLETED");
         appointment.setResult(request.getResult() == null ? appointment.getResult() : request.getResult());
         appointmentRepository.save(appointment);
     }
 
+
+
+    // create bill
+    record CreateBillRequest(
+            Integer doctorId,
+            Integer patientId,
+            String description,
+            String total
+    ){}
+    @PutMapping("/bill")
+    @PreAuthorize("hasAuthority('doctor:update')")
+    public void createBill(@RequestBody CreateBillRequest request) {
+        User doctor = userService.findOneById(request.doctorId);
+        User patient = userService.findOneById(request.patientId);
+        var bill = BillRequest.builder()
+                .doctor(doctor)
+                .patient(patient)
+                .description(request.description())
+                .total(request.total())
+                .status("NOTPAID")
+                .build();
+        billService.save(bill);
+    }
+
+
+    // Shorter form of appointments for doctor schedule list
     record ShortAppointmentsList(
             @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "doctor", "patient"})
             List<Appointment> appointments
-    ){}
+    ) {
+    }
+
+    // return all appointments of doctor in form of list
     @GetMapping("/appointments/{userId}")
     @PreAuthorize("hasAuthority('doctor:update')")
-
     public ShortAppointmentsList findAllBooks(@PathVariable Integer userId) {
         List<Appointment> appointments = appointmentService.findAllByDoctor(userService.findOneById(userId));
         appointments.sort((x, y) -> {
@@ -192,7 +313,6 @@ public class DoctorController {
         appointments = appointments.stream().filter(x -> {
             return x.getStatus().equals("APPROVED") || x.getStatus().equals("COMPLETED") || x.getStatus().equals("CANCELLED");
         }).toList();
-
 
         return new ShortAppointmentsList(appointments);
     }

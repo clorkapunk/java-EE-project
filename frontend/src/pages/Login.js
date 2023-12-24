@@ -15,11 +15,12 @@ const Login = observer(() => {
 
     const click = async () => {
 
-            let data;
-            data = await login(email, password)
-            user.setUser({id: data.id, email: data.sub, role: data.role})
-            user.setIsAuth(true)
-            navigate('/main')
+            login(email, password).then(data => {
+                user.setUser({id: data.id, email: data.sub, role: data.role})
+                user.setIsAuth(true)
+                navigate('/main')
+                }).catch(e => {})
+
 
     }
 

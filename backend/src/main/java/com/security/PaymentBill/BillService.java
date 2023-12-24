@@ -30,6 +30,8 @@ public class BillService {
         repository.save(book);
     }
 
+    public Bill findBillById (Integer id){ return repository.findById(id).orElseThrow(() -> new ApiRequestException("Appointments are not found")); }
+
     public List<Bill> findAll() {
         return repository.findAll();
     }

@@ -40,26 +40,46 @@ const BillPage = observer(() => {
     })
     const [update, setUpdate] = useState(true)
 
-    function payTheBill(){
+    function payTheBill() {
         $authHost.put('/api/v1/bills/pay/' + user.user.id + '/' + id).then(data => {
-            setUpdate(prevState => {return !prevState})
+            setUpdate(prevState => {
+                return !prevState
+            })
         })
     }
 
     useEffect(() => {
-        $authHost.get('/api/v1/bills/patient/' + user.user.id + "/" + id).then(data => {
-            setBill(data.data)
-        })
+
+        if (user.user.role === "USER" || user.user.role === "ADMIN") {
+            $authHost.get('/api/v1/bills/patient/' + user.user.id + "/" + id).then(data => {
+                setBill(data.data)
+            })
+        } else if (user.user.role === "DOCTOR") {
+            $authHost.get('/api/v1/doctor/bill/' + id).then(data => {
+                setBill(data.data)
+                console.log(data.data)
+            })
+        }
+
+
 
     }, [update])
 
-    const createdAt = new Date(bill.createdAt).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
-    const deadline = new Date(bill.deadline).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
+    const createdAt = new Date(bill.createdAt).toLocaleDateString("en-US", {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    })
+    const deadline = new Date(bill.deadline).toLocaleDateString("en-US", {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    })
 
     return (
         <Container className="w-50" style={{minHeight: '90vh'}}>
             <div className="mt-5 mb-5" style={{boxShadow: "0px 0px 8px 0px rgba(34, 60, 80, 0.2)"}}>
-                <div  style={{background: "white", paddingBlock: 40, paddingInline: 40}}>
+                <div style={{background: "white", paddingBlock: 40, paddingInline: 40}}>
                     <div className="d-flex justify-content-between align-items-center">
                         <h1 style={{fontSize: "5em"}}>INVOICE</h1>
                         <FontAwesomeIcon style={{height: 100}} icon={faHandHoldingMedical}/>
@@ -79,7 +99,7 @@ const BillPage = observer(() => {
                             <br/>
                             {bill.patient.iin}
                             <br/>
-                            {bill.patient.number.replace("8",'+7')}
+                            {bill.patient.number.replace("8", '+7')}
                         </p>
                         <p style={{width: "50%", margin: 0, marginLeft: "10%"}}><b>From</b>
                             <br/>
@@ -134,23 +154,46 @@ const BillPage = observer(() => {
                         </p>
                     </div>
                 </div>
-                <div style={{background: "white", paddingInline: 40, paddingBlock: 20, display: "flex", flexDirection: "column",alignItems: "end"}}>
-                    <div style={{display:"flex",
+                <div style={{
+                    background: "white",
+                    paddingInline: 40,
+                    paddingBlock: 20,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end"
+                }}>
+                    <div style={{
+                        display: "flex",
                         width: "fit-content",
                         background: "#666666",
                         paddingBlock: 5,
                         paddingInline: 20,
                         color: "white",
-                        alignItems: "center"}}>
+                        alignItems: "center"
+                    }}>
                         <p style={{margin: 0, marginRight: 30}}>Invoice total</p>
                         <p style={{margin: 0, fontSize: "1.8em"}}>${bill.total}</p>
                     </div>
-                    {bill.status === "NOTPAID" ?
+                    {(bill.status === "NOTPAID" && user.user.role === "USER") ?
                         <Button className="mt-2" variant='success' style={{width: 'auto', borderRadius: 0}}
                                 onClick={() => payTheBill()}
                         >Pay the bill</Button>
                         :
-                        <p className="mt-2" style={{margin: 0, textAlign: "left"}}>Date of payment: <br/>{new Date(bill.paidAt).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: "numeric"})}</p>
+                        (
+                            bill.paidAt !== null ?
+                                <p className="mt-2" style={{margin: 0, textAlign: "left"}}>Date of
+                                    payment: <br/>{new Date(bill.paidAt).toLocaleDateString("en-US", {
+                                        day: 'numeric',
+                                        month: 'long',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: "numeric"
+                                    })}</p>
+                                :
+                                <p className="mt-2" style={{margin: 0, textAlign: "left"}}>Date of
+                                    payment: <br/> ----------</p>
+                        )
+
                     }
                 </div>
                 <div style={{background: "white", paddingInline: 40, paddingTop: 20, paddingBottom: 20}}>

@@ -163,6 +163,10 @@ public class SecurityApplication {
 					.build();
 			appointmentService.save(appointment);
 
+			for (int i = 0; i < 20; i++) {
+				appointmentService.save(appointment);
+			}
+
 			var bill = BillRequest.builder()
 					.total("7000")
 					.description("For shoe covers")

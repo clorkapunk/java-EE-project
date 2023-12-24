@@ -172,3 +172,27 @@
     border-color: #27B085;
 }
 
+.react-bootstrap-table td {
+    text-align: center;
+}
+
+.react-bootstrap-table-pagination {
+    .react-bs-table-sizePerPage-dropdown button{
+
+    }
+
+    .react-bootstrap-table-page-btns-ul li.active{
+        --bs-pagination-active-bg: #27B085;
+        --bs-pagination-active-border-color: #27B085;
+
+        --bs-pagination-color: black;
+        --bs-pagination-border-radius: 0px;
+    }
+    .pagination{
+
+        --bs-pagination-focus-box-shadow: none;
+        --bs-pagination-color: black;
+        --bs-pagination-hover-color: #27B085;
+        --bs-pagination-focus-color:#27B085;
+    }
+}
