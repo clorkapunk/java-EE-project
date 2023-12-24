@@ -50,7 +50,7 @@ const NavBar = observer(() => {
                         <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                     </NavLink>
                     {
-                        (user.user.role === "USER" || user.user.role === "ADMIN" || !user.isAuth) &&
+                        (user.user.role === "USER"  || !user.isAuth) &&
                         <>
                             <NavLink className='navbar-nav-link' to={'/appointments'} style={{marginInline: 20, textDecoration: "none"}}>
                                 <p style={{margin: 0, marginBottom: 5}}>Appontments</p>
@@ -64,7 +64,7 @@ const NavBar = observer(() => {
                         </>
                     }
                     {
-                        (user.user.role === "DOCTOR" || user.user.role === "ADMIN") &&
+                        (user.user.role === "DOCTOR") &&
                         <>
                             <NavLink className='navbar-nav-link' to={'/appointment-schedule'} style={{marginInline: 20, textDecoration: "none"}}>
                                 <p style={{margin: 0, marginBottom: 5}}>Schedule</p>
@@ -79,6 +79,13 @@ const NavBar = observer(() => {
                                 <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
                             </NavLink>
                         </>
+                    }
+                    {
+                        user.user.role === "ADMIN" &&
+                        <NavLink className='navbar-nav-link' to={'/admin-register'} style={{marginInline: 20, textDecoration: "none"}}>
+                            <p style={{margin: 0, marginBottom: 5}}>Registration</p>
+                            <hr style={{margin: 0, background: "black", opacity: 0, height: 2, border: 0}}/>
+                        </NavLink>
                     }
 
                 </Nav>

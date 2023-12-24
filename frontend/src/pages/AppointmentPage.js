@@ -59,7 +59,7 @@ const AppointmentPage = observer(() => {
                 <div style={{padding: 15, border: "1px solid #D8DADE", borderRadius: 5,marginTop: 10}}>
                     Appointment: Direct doctor
                 </div>
-                <CardTitle className="mt-5">Data Reception data</CardTitle>
+                <CardTitle className="mt-5">Reception data</CardTitle>
                 <div style={{padding: 15, border: "1px solid #D8DADE", borderRadius: 5,marginTop: 10}}>
                     <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Date and time of appointment<br/>
                         {date} {appointment.time}

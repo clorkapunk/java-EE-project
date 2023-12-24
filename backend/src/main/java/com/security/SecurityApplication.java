@@ -88,7 +88,7 @@ public class SecurityApplication {
 					.schedule("MON-FRI 8:00-18:00")
 					.role(DOCTOR)
 					.build();
-			System.out.println("Doctor token: " + service.register(doctor).getAccessToken());
+			service.register(doctor);
 
 			var user = RegisterRequest.builder()
 					.hospital(hospitalService.findOneById(1))
@@ -105,7 +105,24 @@ public class SecurityApplication {
 					.schedule("")
 					.role(USER)
 					.build();
-			System.out.println("User token: " + service.register(user).getAccessToken());
+			service.register(user);
+
+			var user2 = RegisterRequest.builder()
+					.hospital(hospitalService.findOneById(1))
+					.firstname("Latini")
+					.lastname("Brunetto")
+					.email("user2@gmail.com")
+					.password("password")
+					.iin("021204501389")
+					.number("87477778899")
+					.address("Paris, District 1, Rue de Rivoli, 14")
+					.gender("MALE")
+					.dob("1220-12-04")
+					.office("")
+					.schedule("")
+					.role(USER)
+					.build();
+			service.register(user2);
 
 
 			var appointment = AppointmentRequest.builder()
@@ -163,9 +180,6 @@ public class SecurityApplication {
 					.build();
 			appointmentService.save(appointment);
 
-			for (int i = 0; i < 20; i++) {
-				appointmentService.save(appointment);
-			}
 
 			var bill = BillRequest.builder()
 					.total("7000")

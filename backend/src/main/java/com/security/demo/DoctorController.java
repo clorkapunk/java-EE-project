@@ -226,7 +226,6 @@ public class DoctorController {
             String dob
     ) {
     }
-
     @GetMapping("/patients")
     @PreAuthorize("hasAuthority('doctor:read')")
     public List<ShortPatient> getPatients() {

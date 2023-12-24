@@ -415,7 +415,7 @@ const PatientProfilePage = () => {
                     >{isLoading ? 'Loading…' : 'Click to load'}</Button>
                 </CardTitle>
                 <Card.Body style={{padding: 30, paddingBottom: 10, display: "flex"}}>
-                    {appointments !== undefined ?
+                    {appointments.length === 0 ?
                         <p style={{width: '100%', textAlign: "center"}}>{appointmentMessage}</p>
                         :
                         <>

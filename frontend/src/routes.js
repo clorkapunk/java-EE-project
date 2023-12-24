@@ -11,6 +11,7 @@ import DoctorAppointmentsSchedulePage from "./pages/DoctorAppointmentsSchedulePa
 import DoctorAppointmentPage from "./pages/DoctorAppointmentPage";
 import Patients from "./pages/Patients";
 import PatientProfilePage from "./pages/PatientProfilePage";
+import AdminRegistrationPage from "./pages/AdminRegistrationPage";
 
 export const authRoutes = [
     {
@@ -52,6 +53,10 @@ export const authRoutes = [
     {
         path: '/patient-profile/:id',
         Component: <PatientProfilePage/>
+    },
+    {
+        path: '/admin-register',
+        Component: <AdminRegistrationPage/>
     }
 
 ]

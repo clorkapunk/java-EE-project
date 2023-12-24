@@ -17,7 +17,7 @@ import {
     faCalendarDays,
     faFileInvoiceDollar,
     faUser,
-    faUserDoctor, faUserGroup
+    faUserDoctor, faUserGroup, faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import DiscrictDoctorModal from "./components/modal/DiscrictDoctorModal";
@@ -82,7 +82,7 @@ const MainTabs = observer(() => {
                         </Card>
                     </Col>
 
-                    {(user.user.role === "USER" || user.user.role === "ADMIN" || !user.isAuth) &&
+                    {(user.user.role === "USER" || !user.isAuth) &&
                         <>
 
                             <Col className="m-2"
@@ -126,7 +126,7 @@ const MainTabs = observer(() => {
 
                         </>
                     }
-                    {(user.user.role === "DOCTOR" || user.user.role === "ADMIN") &&
+                    {(user.user.role === "DOCTOR") &&
                         <>
                             <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
                                 <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
@@ -157,7 +157,7 @@ const MainTabs = observer(() => {
                             <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
                                 <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
                                       onClick={() => {
-                                          user._isAuth ? navigate('/patients') : unathorizedAccessModal("Bills")
+                                          user._isAuth ? navigate('/patients') : unathorizedAccessModal("Patients")
                                       }}>
                                     <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
                                                      icon={faUserGroup}/>
@@ -169,7 +169,21 @@ const MainTabs = observer(() => {
                         </>
 
                     }
-
+                    {
+                        user.user.role === "ADMIN" &&
+                        <Col className="m-2" style={{display: "flex", justifyContent: "center", width: "auto", padding: 0}}>
+                            <Card style={{width: '22rem', paddingInline: 20, paddingBlock: 40, cursor: "pointer"}}
+                                  onClick={() => {
+                                      user._isAuth ? navigate('/admin-register') : unathorizedAccessModal("Bills")
+                                  }}>
+                                <FontAwesomeIcon className='main-menu-icons' style={{height: 80, marginBottom: 30}}
+                                                 icon={faUserPlus}/>
+                                <Card.Text style={{textAlign: "center"}}>
+                                    Register a doctor
+                                </Card.Text>
+                            </Card>
+                        </Col>
+                    }
 
 
 
