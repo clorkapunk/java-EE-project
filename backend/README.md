@@ -15,6 +15,7 @@ This project demonstrates the implementation of security using Spring Boot 3.0 a
 * JSON Web Tokens (JWT)
 * BCrypt
 * Maven
+* ReactJS
  
 ## Getting Started
 To get started with this project, you will need to have the following installed on your local machine:
@@ -25,10 +26,15 @@ To get started with this project, you will need to have the following installed 
 
 To build and run the project, follow these steps:
 
-* Clone the repository: `git clone https://github.com/ali-bouali/spring-boot-3-jwt-security.git`
-* Navigate to the project directory: cd spring-boot-security-jwt
-* Add database "jwt_security" to postgres 
+* Clone the repository: `git clone https://github.com/clorkapunk/java-EE-project.git`
+* Navigate to the project directory: cd java-EE-project
+* Add database "jwt_security" to postgres
+* Navigate to backend: cd backend 
 * Build the project: mvn clean install
-* Run the project: mvn spring-boot:run 
+* Run the project: mvn spring-boot:run
+* 
+* Navigate to frontend: cd frontend
+* Install dependencies: npm install
+* Run development server: npm start
 
 -> The application will be available at http://localhost:8080.
