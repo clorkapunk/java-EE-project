@@ -99,7 +99,7 @@ const AdminRegistrationPage = observer(() => {
                 specialization: null
             })
             alert('Doctor profile created.')
-        })
+        }).catch(e => alert(e.response.message))
         console.log(dataTemp)
     }
 
