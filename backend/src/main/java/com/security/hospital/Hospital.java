@@ -33,11 +33,15 @@ public class Hospital {
     private String title;
     private String address;
 
+
+    // to store id of doctor that is current district doctor in this hospital
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "hospital"})
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "district_doctor_id")
     private User districtDoctor;
 
+
+    // foreign key to USER -> hospital
     @JsonIgnore
     @OneToMany(mappedBy = "hospital", cascade = CascadeType.REMOVE)
     private List<User> user;

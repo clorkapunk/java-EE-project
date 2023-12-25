@@ -36,6 +36,10 @@ public class AppointmentService {
         return appointment.getId();
     }
 
+
+    // scheduler that every n-time check if there is a new appointments and either APPROVE or REJECT
+    // APPROVE in case if this is first appointment to this date and time
+    // REJECT otherwise
     @Scheduled(fixedRate = 20000)
     public void checkSentAppointments() {
         var appointments = findAllByStatus("SENT");
@@ -71,6 +75,8 @@ public class AppointmentService {
         repository.saveAll(newAppointments);
     }
 
+
+    // scheduler that every n-time check all APPROVED appointments and REJECT them if time is out
     @Scheduled(fixedRate = 60000)
     public void checkAppointmentToCancel() {
         var appointments = findAllByStatus("APPROVED");
@@ -89,14 +95,10 @@ public class AppointmentService {
         repository.saveAll(newAppointments);
     }
 
-    public Optional<Appointment> findOneByAllExceptId(User patient, User doctor, String date, String time, String note) {
-        return repository.findAppointmentByPatientAndDoctorAndDateAndTimeAndNote(patient, doctor, date, time, note);
-    }
 
     public List<Appointment> findAllByStatus(String status) {
         return repository.findAllByStatus(status).orElseThrow(() -> new ApiRequestException("Appointments are not found"));
     }
-
 
     public List<Appointment> findAll() {
         return repository.findAll();

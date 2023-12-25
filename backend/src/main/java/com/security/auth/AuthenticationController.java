@@ -46,6 +46,8 @@ public class AuthenticationController {
   ) {
   }
 
+
+  // register a new user
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> register(
       @RequestBody NewUserRequest request
@@ -79,6 +81,9 @@ public class AuthenticationController {
             .build();
     return ResponseEntity.ok(service.register(regRequest));
   }
+
+
+  // auth service return token if all good
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody AuthenticationRequest request
@@ -86,6 +91,8 @@ public class AuthenticationController {
     return ResponseEntity.ok(service.authenticate(request));
   }
 
+
+  // jwt token check service return token if all good
   @PostMapping("/refresh-token")
   public void refreshToken(
       HttpServletRequest request,

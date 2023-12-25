@@ -38,11 +38,15 @@ public class Appointment {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
+
+    // foreign key for DOCTOR
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     public User doctor;
 
+
+    // foreign key for USER
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")

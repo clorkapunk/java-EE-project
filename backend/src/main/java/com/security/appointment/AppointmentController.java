@@ -25,6 +25,8 @@ public class AppointmentController {
     private final AppointmentService service;
     private final UserService userService;
 
+
+    // get single appointments of patient
     @GetMapping("patient/{userId}/{appointmentId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
@@ -34,6 +36,8 @@ public class AppointmentController {
         return service.findAppointmentByPatientAndId(user, aId);
     }
 
+
+    // get all appointments of patient
     @GetMapping("patient/{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
@@ -42,12 +46,15 @@ public class AppointmentController {
         return service.findAllByPatient(user);
     }
 
+
+    // get time available for appointment for a single doctor
+    // record to store and sent data in acceptable format
     record AvailableTime(
             String date,
             ArrayList<String> availableTime
     ) {
     }
-
+    // returns time periods between two times
     public static ArrayList<String> timePeriod20(String start, String end){
         ArrayList<String> result = new ArrayList<>();
         LocalTime first = LocalTime.parse(start);
@@ -63,7 +70,6 @@ public class AppointmentController {
         }
         return result;
     }
-
     @GetMapping("available/{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
@@ -119,6 +125,8 @@ public class AppointmentController {
         return result;
     }
 
+
+    // get short information about doctor
     @GetMapping("doctor/{userId}")
     @PreAuthorize("hasAuthority('doctor:read')")
     @Hidden
@@ -127,6 +135,8 @@ public class AppointmentController {
         return service.findAllByDoctor(user);
     }
 
+
+    // get single appointment by doctor and id
     @GetMapping("doctor/{userId}/{appointmentId}")
     @PreAuthorize("hasAuthority('doctor:read')")
     @Hidden
@@ -135,20 +145,12 @@ public class AppointmentController {
         var user = userService.findOneById(id);
         return service.findAppointmentByDoctorAndId(user, aId);
     }
+
+
+    // get all appointments that exists (no matter user)
     @GetMapping
     @PreAuthorize("hasAuthority('doctor:read')")
     public ResponseEntity<List<Appointment>> findAllAppointments() {
         return ResponseEntity.ok(service.findAll());
     }
-
-    @PostMapping
-    @PreAuthorize("hasAuthority('doctor:create')")
-    public ResponseEntity<?> save(
-            @RequestBody AppointmentRequest request
-    ) {
-        service.save(request);
-        return ResponseEntity.accepted().build();
-    }
-
-
 }

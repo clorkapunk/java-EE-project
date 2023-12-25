@@ -33,6 +33,8 @@ public class AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
+
+  // register a new user and add specific data according to ROLE
   public AuthenticationResponse register(RegisterRequest request) {
     User user;
     if(request.getRole() == Role.DOCTOR){
@@ -82,6 +84,8 @@ public class AuthenticationService {
         .build();
   }
 
+
+
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
@@ -114,6 +118,8 @@ public class AuthenticationService {
     tokenRepository.save(token);
   }
 
+
+  // all tokens would be revoked
   private void revokeAllUserTokens(User user) {
     var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
     if (validUserTokens.isEmpty())
@@ -125,6 +131,8 @@ public class AuthenticationService {
     tokenRepository.saveAll(validUserTokens);
   }
 
+
+  // check old token for validity and return new token
   public void refreshToken(
           HttpServletRequest request,
           HttpServletResponse response
@@ -151,9 +159,6 @@ public class AuthenticationService {
                 .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }
-//      else{
-//        throw new ApiRequestException("Token is expired! Please login again.");
-//      }
     }
   }
 }

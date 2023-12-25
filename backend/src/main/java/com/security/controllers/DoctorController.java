@@ -1,4 +1,4 @@
-package com.security.demo;
+package com.security.controllers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.security.PaymentBill.Bill;
@@ -311,6 +311,9 @@ public class DoctorController {
 
         appointments = appointments.stream().filter(x -> {
             return x.getStatus().equals("APPROVED") || x.getStatus().equals("COMPLETED") || x.getStatus().equals("CANCELLED");
+        }).filter(x -> {
+            var date =  LocalDate.parse(x.getDate());
+            return date.isAfter(LocalDate.now().with(DayOfWeek.MONDAY).minusDays(1));
         }).toList();
 
         return new ShortAppointmentsList(appointments);

@@ -44,6 +44,7 @@ public class SecurityApplication {
 			HospitalRepository hospitalRepository
 	) {
 		return args -> {
+			// some test data
 			var hospital = HospitalRequest.builder()
 					.address("Rome, Fontana di Trevi, Vienna, 10")
 					.title("Urban Purgatory No. 1")

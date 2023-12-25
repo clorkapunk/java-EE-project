@@ -1,4 +1,4 @@
-package com.security.demo;
+package com.security.controllers;
 
 import com.security.auth.AuthenticationService;
 import com.security.auth.RegisterRequest;
@@ -57,6 +57,8 @@ public class AdminController {
         return repository.findAll();
     }
 
+
+    // register a new doctor, user or admin
     @PostMapping
     @PreAuthorize("hasAuthority('admin:create')")
     @Hidden

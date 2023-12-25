@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Container} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 // import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
@@ -14,12 +14,14 @@ import {useNavigate} from "react-router-dom";
 
 const Patients = observer(() => {
     const {user} = useContext(Context)
+    const [iinFilter, setIinFilter] = useState('')
     const products = [
         {
             id: 1, name: "Ordinarycoders course 1",
             surname: "sample",
             iin: 'sample',
             address: 'sample',
+            number: 'sample',
             gender: "sample",
             dob: "sample",
             link: <Button onClick={() => console.log(1)}></Button>
@@ -39,7 +41,8 @@ const Patients = observer(() => {
                     iin: item.iin,
                     address: item.address,
                     gender: item.gender,
-                    dob: new Date(item.dob).toLocaleDateString("en-US", {year: 'numeric',day: 'numeric', month: 'numeric'}),
+                    number: item.number,
+                    dob: new Date(item.dob).toLocaleDateString("en-US", {year: 'numeric',day: 'numeric', month: 'long'}),
                     link: <Button
                         onClick={() => navigate('/patient-profile/' + item.id)}
                         variant='link' style={{color: "#6a83b8"}}
@@ -50,7 +53,6 @@ const Patients = observer(() => {
             })
             setData(dataTemp)
         })
-
     }, [])
 
 
@@ -76,9 +78,8 @@ const Patients = observer(() => {
             sort: true
         },
         {
-            dataField: "address",
-            text: "Address",
-            sort: true
+            dataField: "number",
+            text: "Phone number"
         },
         {
             dataField: "gender",
@@ -109,10 +110,25 @@ const Patients = observer(() => {
 
     return (
         <Container style={{minHeight: '90vh'}} className='pt-3'>
+            <h2 className="mb-3 mt-0 text-center">
+                {
+                    (user.user.role === "DOCTOR") ?
+                        "Patients database"
+                        :
+                        "Issued invoices"
+                }
+            </h2>
+
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <Form.Control type="number" className='mb-2' placeholder="Find by IIN"
+                              value={iinFilter}
+                              onChange={(e) => setIinFilter(e.target.value)}
+                              style={{width: '20%'}}/>
+            </div>
             <BootstrapTable
                 bootstrap4
                 keyField="id"
-                data={data}
+                data={data.filter(x => {return x.iin.startsWith(iinFilter)})}
                 columns={columns}
                 pagination={paginationFactory({sizePerPage: 10, sizePerPageList: sizePerPageList})}
             />

@@ -39,10 +39,12 @@ public class Bill {
     @Column(name = "paid_at", insertable = false)
     private Date paidAt;
 
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     public User doctor;
+
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)

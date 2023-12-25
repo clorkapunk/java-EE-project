@@ -10,7 +10,7 @@ const Bills = observer(() => {
     const [tab, setTab] = useState("all")
 
     let widths = [];
-    if(user.user.role === "DOCTOR") widths = ['7%', '15%', '20%', '5%', '10%', '20%']
+    if(user.user.role === "DOCTOR") widths = ['7%', '15%', '20%', '8%', '10%', '20%']
     else if(user.user.role === "USER") widths = ['10%', '20%', '30%', '10%', '10%', '20%']
 
     return (
@@ -38,7 +38,7 @@ const Bills = observer(() => {
                             Order NO.
                         </ListGroup.Item>
                         {user.user.role === "DOCTOR" &&
-                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '23%', paddingInline: 5}}>
+                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '20%', paddingInline: 5}}>
                                 Patient's name
                             </ListGroup.Item>
                         }
@@ -71,7 +71,7 @@ const Bills = observer(() => {
                             Order NO.
                         </ListGroup.Item>
                         {user.user.role === "DOCTOR" &&
-                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '23%', paddingInline: 5}}>
+                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '20%', paddingInline: 5}}>
                                 Patient's name
                             </ListGroup.Item>
                         }
@@ -104,7 +104,7 @@ const Bills = observer(() => {
                             Order NO.
                         </ListGroup.Item>
                         {user.user.role === "DOCTOR" &&
-                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '23%', paddingInline: 5}}>
+                            <ListGroup.Item variant="light" className="bills-table-header" style={{width: '20%', paddingInline: 5}}>
                                 Patient's name
                             </ListGroup.Item>
                         }

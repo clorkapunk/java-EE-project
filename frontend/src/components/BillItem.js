@@ -12,7 +12,7 @@ const BillItem = observer(({item}) => {
     const createdAt = new Date(item.createdAt).toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'})
 
     let widths = [];
-    if(user.user.role === "DOCTOR") widths = ['7%', '15%', '20%', '5%', '10%', '20%']
+    if(user.user.role === "DOCTOR") widths = ['7%', '15%', '20%', '8%', '10%', '20%']
     else if(user.user.role === "USER") widths = ['10%', '20%', '30%', '10%', '10%', '20%']
 
     return (
@@ -23,7 +23,7 @@ const BillItem = observer(({item}) => {
                 </ListGroup.Item>
                 {
                     user.user.role === "DOCTOR" &&
-                    <ListGroup.Item variant="light" style={{background: 'white', border: 0, borderRight: "1px solid #D2D2D2", width: '23%' }}>
+                    <ListGroup.Item variant="light" style={{background: 'white', border: 0, borderRight: "1px solid #D2D2D2", width: '20%' }}>
                         {item.patient.firstname + " " + item.patient.lastname}
                     </ListGroup.Item>
                 }

@@ -1,13 +1,9 @@
 package com.security.PaymentBill;
 
-import com.security.demo.PatientController;
-import com.security.user.Role;
 import com.security.user.User;
 import com.security.user.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +19,8 @@ public class BillController {
     private final BillRepository billRepository;
     private final UserService userService;
 
+
+    // get single bill that relates to patient and has id
     @GetMapping("patient/{userId}/{billId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
@@ -32,6 +30,8 @@ public class BillController {
         return service.findBillByPatientAndId(user, aId);
     }
 
+
+    // get all bills that relates to patient
     @GetMapping("patient/{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     @Hidden
@@ -41,6 +41,7 @@ public class BillController {
     }
 
 
+    // get all bill that related to doctor
     @GetMapping("doctor/{userId}")
     @PreAuthorize("hasAuthority('doctor:read')")
     @Hidden
@@ -49,21 +50,8 @@ public class BillController {
         return service.findAllByDoctor(user);
     }
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('doctor:read')")
-    public ResponseEntity<List<Bill>> findAllAppointments() {
-        return ResponseEntity.ok(service.findAll());
-    }
 
-    @PostMapping
-    @PreAuthorize("hasAuthority('doctor:create')")
-    public ResponseEntity<?> save(
-            @RequestBody BillRequest request
-    ) {
-        service.save(request);
-        return ResponseEntity.accepted().build();
-    }
-
+    // patient pay the bill mapping, there suppose to be some banking deals and checks
     @PutMapping("/pay/{customerId}/{billId}")
     @PreAuthorize("hasAuthority('user:update')")
     @Hidden

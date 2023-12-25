@@ -1,11 +1,9 @@
-package com.security.demo;
+package com.security.controllers;
 
-import com.security.appointment.Appointment;
 import com.security.appointment.AppointmentRepository;
 import com.security.appointment.AppointmentRequest;
 import com.security.appointment.AppointmentService;
 import com.security.auth.AuthenticationService;
-import com.security.auth.RegisterRequest;
 import com.security.exception.ApiRequestException;
 import com.security.hospital.HospitalService;
 import com.security.specialization.SpecializationService;
@@ -40,12 +38,16 @@ public class PatientController {
         this.specializationService = specializationService;
     }
 
+
+    // get full information about patient
     @GetMapping("{userId}")
     @PreAuthorize("hasAuthority('user:read')")
     public User getUserById(@PathVariable("userId") Integer id){
         return repository.findById(id).orElseThrow(() -> new ApiRequestException("User is not found"));
     }
 
+
+    // user create appointment mapping
     record NewUserRequest(
             String firstname,
             String lastname,
@@ -53,7 +55,6 @@ public class PatientController {
             String password,
             String role
     ){}
-
     record NewAppointmentRequest(
             String date,
             String time,
@@ -61,7 +62,6 @@ public class PatientController {
             Integer doctorId,
             Integer patientId
     ){}
-
     @PostMapping("/appointment")
     @PreAuthorize("hasAuthority('user:create')")
     @Hidden
@@ -80,6 +80,8 @@ public class PatientController {
         return appointmentService.save(appointment);
     }
 
+
+    // user delete own account
     @DeleteMapping("{userId}")
     @PreAuthorize("hasAuthority('admin:delete')")
     @Hidden
@@ -87,6 +89,8 @@ public class PatientController {
         repository.deleteById(id);
     }
 
+
+    // to edit some profile information
     @PutMapping("{customerId}")
     @PreAuthorize("hasAuthority('admin:update')")
     @Hidden
