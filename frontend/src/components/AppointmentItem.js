@@ -41,7 +41,7 @@ const AppointmentItem = ({item, doctorView}) => {
                     <hr style={{marginBlock: 10}}/>
                     <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Status<br/>{item.status}</Card.Text>
                     <hr style={{marginBlock: 10}}/>
-                    <Card.Text style={{marginBottom: 0, fontSize: "0.8rem"}}>Note<br/>{item.note}&nbsp;</Card.Text>
+                    <Card.Text style={{marginBottom: 0, fontSize: "0.8rem", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden"}}>Note<br/>{item.note}&nbsp;</Card.Text>
                     <hr style={{marginBlock: 10}}/>
                     <Button style={{fontSize: "0.8rem", width: '100%'}} variant="outline-info"
                             onClick={() => navigate('/appointment/' + item.id)

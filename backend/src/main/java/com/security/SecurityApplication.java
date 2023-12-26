@@ -127,10 +127,9 @@ public class SecurityApplication {
 
 
 			var appointment = AppointmentRequest.builder()
-					.date("2023-12-18")
+					.date("2023-12-27")
 					.time("08:00-08:20")
-					.note("Heart")
-					.status("COMPLETED")
+					.note("Disease prevention")
 					.result("")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
@@ -138,21 +137,19 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-19")
+					.date("2023-12-28")
 					.time("14:00-14:20")
-					.note("Heart")
-					.status("SENT")
+					.note("Knee pain, I think the reason is the arrow.")
 					.result("")
-					.patient(userService.findOneById(3))
+					.patient(userService.findOneById(4))
 					.doctor(userService.findOneById(2))
 					.build();
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-20")
+					.date("2023-12-29")
 					.time("08:00-08:20")
-					.note("Heart")
-					.status("APPROVED")
+					.note("I've been coughing for 500 years, I want peace of mind.")
 					.result("")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
@@ -160,10 +157,19 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-21")
-					.time("14:00-14:20")
-					.note("Heart")
-					.status("REJECTED")
+					.date("2023-12-28")
+					.time("14:20-14:40")
+					.note("Pain in the liver, kidneys, heart, stomach, legs, arms, head, back, lower back, pelvis, all joints and muscles.")
+					.result("")
+					.patient(userService.findOneById(4))
+					.doctor(userService.findOneById(2))
+					.build();
+			appointmentService.save(appointment);
+
+			appointment = AppointmentRequest.builder()
+					.date("2023-12-27")
+					.time("11:40-12:00")
+					.note("The eye started to leak, I managed to collect it in a jar.")
 					.result("")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
@@ -171,12 +177,11 @@ public class SecurityApplication {
 			appointmentService.save(appointment);
 
 			appointment = AppointmentRequest.builder()
-					.date("2023-12-22")
-					.time("08:00-08:20")
-					.note("Heart")
-					.status("CANCELLED")
+					.date("2023-12-25")
+					.time("09:00-09:20")
+					.note("Health certificate for work.")
 					.result("")
-					.patient(userService.findOneById(3))
+					.patient(userService.findOneById(4))
 					.doctor(userService.findOneById(2))
 					.build();
 			appointmentService.save(appointment);
@@ -184,7 +189,7 @@ public class SecurityApplication {
 
 			var bill = BillRequest.builder()
 					.total("7000")
-					.description("For shoe covers")
+					.description("You have consulted a doctor about back pain.")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
 					.status("NOTPAID")
@@ -193,17 +198,44 @@ public class SecurityApplication {
 
 			bill = BillRequest.builder()
 					.total("8000")
-					.description("For water in toilet")
+					.description("You have had surgery to remove your appendix.")
 					.patient(userService.findOneById(3))
 					.doctor(userService.findOneById(2))
-					.status("PAID")
+					.status("NOTPAID")
 					.build();
 			billService.save(bill);
 
 			bill = BillRequest.builder()
 					.total("1000")
-					.description("For air")
+					.description("You have had a blood test to check your blood sugar levels.")
+					.patient(userService.findOneById(4))
+					.doctor(userService.findOneById(2))
+					.status("NOTPAID")
+					.build();
+			billService.save(bill);
+
+			bill = BillRequest.builder()
+					.total("1000")
+					.description("You have had a chest x-ray to check for pneumonia.")
+					.patient(userService.findOneById(4))
+					.doctor(userService.findOneById(2))
+					.status("NOTPAID")
+					.build();
+			billService.save(bill);
+
+			bill = BillRequest.builder()
+					.total("1000")
+					.description("You have been prescribed antibiotics to treat the infection.")
 					.patient(userService.findOneById(3))
+					.doctor(userService.findOneById(2))
+					.status("NOTPAID")
+					.build();
+			billService.save(bill);
+
+			bill = BillRequest.builder()
+					.total("1000")
+					.description("You had to stay in the hospital overnight for observation after surgery.")
+					.patient(userService.findOneById(4))
 					.doctor(userService.findOneById(2))
 					.status("NOTPAID")
 					.build();

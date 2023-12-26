@@ -123,8 +123,8 @@ const BillPage = observer(() => {
                     <hr style={{margin: 0, height: 2, background: "black", opacity: 1}}/>
 
                     <div className='mt-2'>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <p style={{width: '40%'}}>Description</p>
+                        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                            <p style={{width: '40%'}}>{bill.description}</p>
                             <div style={{display: "flex", width: '50%'}}>
                                 <p style={{width: "30%", textAlign: "start"}}>${bill.total}</p>
                                 <p style={{width: "40%", textAlign: "center"}}>1</p>

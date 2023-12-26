@@ -102,7 +102,7 @@ const DoctorCalendarItem = observer(({item}) => {
                                         textAlign: "center",
                                         marginRight: '5%'
                                     }}>{item.time}</p>
-                                    <p style={{margin: 0, width: '70%'}}>{item.appointment !== null && item.appointment.note}</p>
+                                    <p style={{margin: 0, width: '70%', textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden"}}>{item.appointment !== null && item.appointment.note}</p>
                                 </Card.Text>
                                 <hr style={{marginBlock: 0}}/>
                             </div>

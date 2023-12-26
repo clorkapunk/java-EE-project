@@ -69,7 +69,7 @@ const AdminRegistrationPage = observer(() => {
         if(validCards.prof || validCards.personal || validCards.system) return
 
         const scheduleStr = data.schedule.dayFrom + "-" + data.schedule.dayTo + " " + data.schedule.timeFrom + "-" + data.schedule.timeTo
-        var dataTemp = {
+        let dataTemp = {
             ...data,
             schedule: scheduleStr,
             hospital: parseInt(data.hospital),
@@ -99,7 +99,7 @@ const AdminRegistrationPage = observer(() => {
                 specialization: null
             })
             alert('Doctor profile created.')
-        }).catch(e => alert(e.response.message))
+        }).catch(e => {})
         console.log(dataTemp)
     }
 
