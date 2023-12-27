@@ -70,12 +70,14 @@ const ProfilePage = observer(() => {
         'SUN': 'Sunday'
     };
 
-    const schedule = data.schedule
-        .replace(' ', ': ')
+    const schedule = data.hospital.districtDoctor.schedule
+        .replace(' ', ' : ')
         .replaceAll('-', ' - ')
         .replaceAll(/(?:^|(?<= ))(MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?= )|$)/g, function (match) {
+            console.log(match)
             return replace_map[match];
         })
+        .replace(' : ', ': ')
 
     return (
         <Container style={{minHeight: "90vh"}}>

@@ -106,6 +106,7 @@ const DistrictDoctorPagenation = observer(({items, post}) => {
         setDate(items[page][0].date)
         setCards(items)
         setTime('')
+        console.log(cards)
 
 
     }, [items])
