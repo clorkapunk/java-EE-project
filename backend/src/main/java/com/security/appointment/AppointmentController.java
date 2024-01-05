@@ -56,6 +56,7 @@ public class AppointmentController {
     }
     // returns time periods between two times
     public static ArrayList<String> timePeriod20(String start, String end){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         ArrayList<String> result = new ArrayList<>();
         LocalTime first = LocalTime.parse(start);
         if(first.getMinute() % 20 != 0){
@@ -64,7 +65,7 @@ public class AppointmentController {
         LocalTime second = first.plusMinutes(20);
         LocalTime last = LocalTime.parse(end);
         while(!second.isAfter(last)){
-            result.add(first.toString() + "-" + second.toString());
+            result.add(first.format(formatter) + "-" + second.format(formatter));
             first = first.plusMinutes(20);
             second = first.plusMinutes(20);
         }

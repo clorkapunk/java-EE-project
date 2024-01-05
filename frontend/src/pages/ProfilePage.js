@@ -24,13 +24,16 @@ const ProfilePage = observer(() => {
         email: 'sample',
         number: 'sample',
         hospital: {
-            title: 'sample'
+            title: 'sample',
+            districtDoctor: {
+                schedule: 'MON-FRI: 08:00-18:00',
+            }
         },
         specialization: {
             id: 'sample',
             title: 'sample'
         },
-        schedule: 'sample',
+
         office: 'sample',
         address: 'sample',
         iin: 'sample',
@@ -69,6 +72,8 @@ const ProfilePage = observer(() => {
         'SAT': 'Saturday',
         'SUN': 'Sunday'
     };
+
+
 
     const schedule = data.hospital.districtDoctor.schedule
         .replace(' ', ' : ')
